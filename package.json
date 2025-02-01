@@ -1,0 +1,24 @@
+{
+  "name": "semgrep-server",
+  "version": "1.0.0",
+  "description": "MCP Server für Semgrep Integration",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "start": "node build/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["mcp", "semgrep", "static-analysis"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "@modelcontextprotocol/sdk": "^0.1.0"
+  },
+  "dependencies": {
+    "axios": "^1.0.0"
+  }
+}
