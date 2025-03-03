@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import { Server } from '@modelcontextprotocol/sdk/dist/esm/server/mcp.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/dist/esm/server/stdio.js';
-import {
+import { 
+  Server, 
+  StdioServerTransport, 
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
-  McpError,
-} from '@modelcontextprotocol/sdk/dist/esm/types.js';
+  McpError
+} from '@modelcontextprotocol/sdk';
 
 import { ensureSemgrepAvailable } from './utils/index.js';
 import {
