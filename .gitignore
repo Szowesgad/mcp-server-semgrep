@@ -1,4 +1,7 @@
 node_modules/
 build/
-*.log
 .DS_Store
+coverage/
+.env
+*.log
+.vscode/
