@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/dist/esm/types.js';
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk';
 import { validateAbsolutePath } from '../utils/index.js';
 
 interface FilterResultsParams {
