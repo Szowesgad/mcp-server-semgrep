@@ -18,7 +18,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.0.0",
-    "@modelcontextprotocol/sdk": "^0.1.0",
+    "@modelcontextprotocol/sdk": "^1.6.1",
     "ts-node": "^10.9.2",
     "vitest": "^1.0.0",
     "eslint": "^8.53.0",
