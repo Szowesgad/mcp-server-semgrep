@@ -1,6 +1,12 @@
 #!/usr/bin/env node
-import { Server, StdioServerTransport } from '@modelcontextprotocol/sdk/server';
-import { CallToolRequestSchema, ErrorCode, ListToolsRequestSchema, McpError } from '@modelcontextprotocol/sdk/shared';
+import {
+  Server,
+  StdioServerTransport,
+  CallToolRequestSchema,
+  ErrorCode,
+  ListToolsRequestSchema,
+  McpError
+} from './sdk.js';
 
 import { ensureSemgrepAvailable } from './utils/index.js';
 import {
