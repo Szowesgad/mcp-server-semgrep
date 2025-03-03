@@ -1,66 +1,83 @@
 # Semgrep Server
 
-Ein Model Context Protocol (MCP) Server für die Integration von Semgrep in die Entwicklungsumgebung. Dieser Server ermöglicht die Durchführung von statischen Code-Analysen und die Verwaltung von Semgrep-Regeln direkt über das MCP-Protokoll.
+A Model Context Protocol (MCP) Server for integrating Semgrep into the development environment. This server allows for the execution of static code analyses and the management of Semgrep rules directly via the MCP protocol.
 
 ## Installation
 
 ```bash
-# Repository klonen
+# Clone repository
 git clone [repository-url]
 cd semgrep-server
 
-# Abhängigkeiten installieren
+# Install dependencies
 npm install
 
-# Server bauen
+# Build server
 npm run build
 ```
 
-## Verwendung
+## Usage
 
-Der Server kann auf folgende Weise gestartet werden:
+The server can be started in the following ways:
 
 ```bash
-# Produktionsmodus
+# Production mode
 npm start
 
-# Entwicklungsmodus
+# Development mode
 npm run dev
 ```
 
-## Verfügbare Tools
+## Available Tools
 
-Der Server stellt folgende MCP-Tools zur Verfügung:
+The server provides the following MCP tools:
 
-- `scan_directory`: Führt einen Semgrep-Scan in einem Verzeichnis aus
-- `list_rules`: Listet verfügbare Semgrep-Regeln auf
-- `analyze_results`: Analysiert die Scan-Ergebnisse
-- `create_rule`: Erstellt eine neue Semgrep-Regel
-- `filter_results`: Filtert Scan-Ergebnisse nach verschiedenen Kriterien
-- `export_results`: Exportiert Scan-Ergebnisse in verschiedene Formate
-- `compare_results`: Vergleicht zwei Scan-Ergebnisse
+- `scan_directory`: Performs a Semgrep scan in a directory
+- `list_rules`: Lists available Semgrep rules
+- `analyze_results`: Analyzes scan results
+- `create_rule`: Creates a new Semgrep rule
+- `filter_results`: Filters scan results by various criteria
+- `export_results`: Exports scan results in different formats
+- `compare_results`: Compares two scan results
 
-## Entwicklung
+## Development
 
-Das Projekt ist in TypeScript geschrieben und verwendet das MCP SDK für die Server-Implementierung. 
+The project is written in TypeScript and uses the MCP SDK for server implementation.
 
-### Projektstruktur
+### Project Structure
 
 ```
 semgrep-server/
-├── src/           # Quellcode
-├── build/         # Kompilierte JavaScript-Dateien
-├── test.js        # Testdateien
-└── test-rule.yaml # Beispiel Semgrep-Regel
+├── src/                 # Source code
+│   ├── handlers/        # Tool handlers
+│   ├── utils/           # Utility functions
+│   ├── config.ts        # Configuration
+│   └── index.ts         # Main server
+├── build/               # Compiled JavaScript files
+├── tests/               # Test files
+└── test-rule.yaml       # Example Semgrep rule
 ```
 
-### Abhängigkeiten
+### Dependencies
 
-- Node.js & npm
+- Node.js (>=18) & npm
 - TypeScript
 - MCP SDK
-- Axios für HTTP-Anfragen
+- Axios for HTTP requests
+- Python & pip3 (for semgrep)
 
-## Lizenz
+## Testing
 
-Dieses Projekt steht unter der ISC-Lizenz. Weitere Details finden Sie in der [LICENSE](LICENSE) Datei.
+Run tests with:
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+## License
+
+This project is licensed under the ISC License. More details can be found in the [LICENSE](LICENSE) file.
