@@ -11,7 +11,12 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "@modelcontextprotocol/sdk/dist/esm/server": ["node_modules/@modelcontextprotocol/sdk/dist/esm/server"],
+      "@modelcontextprotocol/sdk/dist/esm/shared": ["node_modules/@modelcontextprotocol/sdk/dist/esm/shared"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build"]
