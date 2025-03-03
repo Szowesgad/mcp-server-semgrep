@@ -1,0 +1,13 @@
+rules:
+  - id: example-security-check
+    patterns:
+      - pattern: md5($X)
+    message: |
+      MD5 is a weak hashing algorithm that can lead to collisions. 
+      Consider using a more secure alternative like SHA-256 or bcrypt.
+    languages: [javascript, typescript, python, php]
+    severity: WARNING
+    metadata:
+      category: security
+      references:
+        - https://en.wikipedia.org/wiki/MD5#Security
