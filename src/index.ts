@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import { Server } from '@modelcontextprotocol/sdk';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk';
+import { Server } from '@modelcontextprotocol/sdk/dist/esm/server/mcp.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/dist/esm/server/stdio.js';
 import {
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
   McpError,
-} from '@modelcontextprotocol/sdk';
+} from '@modelcontextprotocol/sdk/dist/esm/types.js';
 
 import { ensureSemgrepAvailable } from './utils/index.js';
 import {
@@ -35,7 +35,7 @@ class SemgrepServer {
 
     this.setupToolHandlers();
     
-    this.server.onerror = (error) => console.error('[MCP Error]', error);
+    this.server.onerror = (error: any) => console.error('[MCP Error]', error);
     process.on('SIGINT', async () => {
       await this.server.close();
       process.exit(0);
@@ -205,7 +205,7 @@ class SemgrepServer {
       ]
     }));
 
-    this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    this.server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
       // Ensure Semgrep is available before executing any tool
       await ensureSemgrepAvailable();
 
