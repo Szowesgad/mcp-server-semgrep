@@ -1,5 +1,5 @@
 import { executeSemgrepCommand } from '../utils/index.js';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk';
 
 interface ListRulesParams {
   language?: string;
