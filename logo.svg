@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <!-- Background -->
+  <rect width="400" height="200" fill="#1e293b" rx="10" ry="10" />
+  
+  <!-- Code pattern background -->
+  <g fill="#334155" opacity="0.3">
+    <text x="20" y="30" font-family="monospace" font-size="10">{semgrep scan --pattern "dangerous.pattern()"}</text>
+    <text x="20" y="45" font-family="monospace" font-size="10">func securityCheck() {</text>
+    <text x="20" y="60" font-family="monospace" font-size="10">  validateInput(userInput)</text>
+    <text x="20" y="75" font-family="monospace" font-size="10">  sanitize(data)</text>
+    <text x="20" y="90" font-family="monospace" font-size="10">  return safeOutput</text>
+    <text x="20" y="105" font-family="monospace" font-size="10">}</text>
+    <text x="20" y="135" font-family="monospace" font-size="10">// MCP Protocol Implementation</text>
+    <text x="20" y="150" font-family="monospace" font-size="10">const server = new Server({</text>
+    <text x="20" y="165" font-family="monospace" font-size="10">  tools: [SemgrepTool, AnalysisTool]</text>
+    <text x="20" y="180" font-family="monospace" font-size="10">});</text>
+  </g>
+  
+  <!-- Main Logo Elements -->
+  <g transform="translate(200, 100)">
+    <!-- Outer circle -->
+    <circle cx="0" cy="0" r="70" fill="none" stroke="#60a5fa" stroke-width="4" />
+    
+    <!-- Middle hexagon representing code security -->
+    <path d="M 0,-50 L 43.3,-25 L 43.3,25 L 0,50 L -43.3,25 L -43.3,-25 Z" fill="none" stroke="#34d399" stroke-width="3" />
+    
+    <!-- Inner shield shape -->
+    <path d="M 0,-30 L 25,-20 L 25,10 C 25,20 0,30 0,30 C 0,30 -25,20 -25,10 L -25,-20 Z" fill="none" stroke="#f87171" stroke-width="3" />
+    
+    <!-- Code brackets -->
+    <path d="M -15,-15 L -25,-5 L -15,5" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 15,-15 L 25,-5 L 15,5" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Scanning beam -->
+    <line x1="-25" y1="0" x2="25" y2="0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 2" />
+  </g>
+  
+  <!-- Text Elements -->
+  <g text-anchor="middle" font-family="Arial, sans-serif" fill="#f8fafc">
+    <text x="200" y="196" font-weight="bold" font-size="14">MCP SERVER SEMGREP</text>
+  </g>
+</svg>
