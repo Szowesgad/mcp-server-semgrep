@@ -77,10 +77,19 @@ export interface ServerTransport {
   close(): Promise<void>;
 }
 
+// Type for JSON Schema
+export interface JsonSchema {
+  type: string;
+  properties?: Record<string, any>;
+  required?: string[];
+  items?: any;
+  [key: string]: any;
+}
+
 // ==================== Schema Validation ====================
 
 // Simple JSON schema validator for basic validation
-const validateSchema = (data: any, schema: any): boolean => {
+const validateSchema = (data: any, schema: JsonSchema): boolean => {
   if (schema.type === 'object') {
     if (typeof data !== 'object' || data === null) return false;
     
@@ -122,7 +131,7 @@ const validateSchema = (data: any, schema: any): boolean => {
 
 // ==================== Request Schemas ====================
 
-export const ListToolsRequestSchema = {
+export const ListToolsRequestSchema: JsonSchema = {
   type: 'object',
   properties: {
     jsonrpc: { type: 'string' },
@@ -133,7 +142,7 @@ export const ListToolsRequestSchema = {
   required: ['jsonrpc', 'method', 'params', 'id']
 };
 
-export const CallToolRequestSchema = {
+export const CallToolRequestSchema: JsonSchema = {
   type: 'object',
   properties: {
     jsonrpc: { type: 'string' },
@@ -224,7 +233,7 @@ export class StdioServerTransport implements ServerTransport {
 export class Server {
   private config: ServerConfig;
   private options: ServerOptions;
-  private requestHandlers: Map<any, Function> = new Map();
+  private requestHandlers: Map<JsonSchema, Function> = new Map();
   private transport: ServerTransport | null = null;
   private running: boolean = false;
 
@@ -235,7 +244,7 @@ export class Server {
     this.options = options;
   }
 
-  setRequestHandler(schema: any, handler: Function): void {
+  setRequestHandler(schema: JsonSchema, handler: Function): void {
     this.requestHandlers.set(schema, handler);
   }
 
@@ -291,8 +300,8 @@ export class Server {
     }
 
     try {
-      let handler = null;
-      let handlerSchema = null;
+      let handler: Function | undefined;
+      let handlerSchema: JsonSchema | undefined;
 
       if (request.method === 'list_tools') {
         handler = this.requestHandlers.get(ListToolsRequestSchema);
@@ -302,7 +311,7 @@ export class Server {
         handlerSchema = CallToolRequestSchema;
       }
 
-      if (!handler) {
+      if (!handler || !handlerSchema) {
         await this.sendError(id, ErrorCode.MethodNotFound, `Method ${request.method} not found`);
         return;
       }
