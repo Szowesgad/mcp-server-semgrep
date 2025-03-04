@@ -1,5 +1,5 @@
 import path from 'path';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk';
+import { ErrorCode, McpError } from '../sdk.js';
 import { BASE_ALLOWED_PATH } from '../config.js';
 
 /**
