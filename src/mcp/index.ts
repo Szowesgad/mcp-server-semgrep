@@ -272,11 +272,14 @@ export class Server {
       try {
         const line = await this.transport.read();
         if (!line.trim()) continue;
+        
+        console.error(`[MCP DEBUG] Received request: ${line}`);
 
         let request;
         try {
           request = JSON.parse(line);
         } catch (e) {
+          console.error(`[MCP DEBUG] JSON parse error: ${e}`);
           await this.sendError(null, ErrorCode.ParseError, 'Invalid JSON');
           continue;
         }
@@ -309,23 +312,39 @@ export class Server {
       } else if (request.method === 'call_tool') {
         handler = this.requestHandlers.get(CallToolRequestSchema);
         handlerSchema = CallToolRequestSchema;
+      } else if (request.method === 'initialize') {
+        // Special handling for initialize method
+        console.error(`[MCP DEBUG] Received initialize request: ${JSON.stringify(request)}`);
+        await this.sendResult(id, {
+          protocolVersion: request.params.protocolVersion,
+          serverInfo: {
+            name: this.config.name,
+            version: this.config.version
+          }
+        });
+        return;
       }
 
       if (!handler || !handlerSchema) {
+        console.error(`[MCP DEBUG] Method not found: ${request.method}`);
         await this.sendError(id, ErrorCode.MethodNotFound, `Method ${request.method} not found`);
         return;
       }
 
       // Validate request against schema
       if (!validateSchema(request, handlerSchema)) {
+        console.error(`[MCP DEBUG] Invalid params: ${JSON.stringify(request)}`);
         await this.sendError(id, ErrorCode.InvalidParams, 'Invalid parameters');
         return;
       }
 
       // Call the handler and send the result
+      console.error(`[MCP DEBUG] Calling handler for ${request.method}`);
       const result = await handler(request);
+      console.error(`[MCP DEBUG] Handler result: ${JSON.stringify(result)}`);
       await this.sendResult(id, result);
     } catch (error) {
+      console.error(`[MCP DEBUG] Error handling request: ${error}`);
       if (error instanceof McpError) {
         await this.sendError(id, error.code, error.message, error.data);
       } else {
@@ -344,6 +363,7 @@ export class Server {
       result
     };
 
+    console.error(`[MCP DEBUG] Sending response: ${JSON.stringify(response)}`);
     await this.transport.write(JSON.stringify(response));
   }
 
@@ -365,6 +385,7 @@ export class Server {
       }
     };
 
+    console.error(`[MCP DEBUG] Sending error: ${JSON.stringify(response)}`);
     await this.transport.write(JSON.stringify(response));
   }
 }
