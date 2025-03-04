@@ -1,42 +1,24 @@
 import fs from 'fs/promises';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk';
+import { ErrorCode, McpError } from '../sdk.js';
 import { validateAbsolutePath } from '../utils/index.js';
 
 interface AnalyzeResultsParams {
   results_file: string;
 }
 
-interface SemgrepResult {
-  results: {
-    path: string;
-    check_id: string;
-    start: { line: number; col: number };
-    end: { line: number; col: number };
-    extra: {
-      message: string;
-      metadata: any;
-      severity: string;
-      lines: string;
-    };
-  }[];
-  errors: any[];
-  stats: any;
-}
-
 /**
- * Analyzes Semgrep scan results and provides insights
- * 
+ * Handles a request to analyze Semgrep scan results
  * @param {AnalyzeResultsParams} params Request parameters
- * @returns {Promise<object>} Analysis of results
+ * @returns {Promise<object>} Analysis of scan results
  */
 export async function handleAnalyzeResults(params: AnalyzeResultsParams): Promise<object> {
-  // Validate the results file path
-  const resultsFilePath = validateAbsolutePath(params.results_file, 'results_file');
+  // Validate parameters
+  const resultsFile = validateAbsolutePath(params.results_file, 'results_file');
   
   // Read results file
-  let fileContent: string;
+  let resultsContent: string;
   try {
-    fileContent = await fs.readFile(resultsFilePath, 'utf-8');
+    resultsContent = await fs.readFile(resultsFile, 'utf8');
   } catch (error: any) {
     throw new McpError(
       ErrorCode.InvalidParams,
@@ -44,68 +26,64 @@ export async function handleAnalyzeResults(params: AnalyzeResultsParams): Promis
     );
   }
   
-  // Parse JSON results
-  let results: SemgrepResult;
+  // Parse results as JSON
+  let results: any;
   try {
-    results = JSON.parse(fileContent);
+    results = JSON.parse(resultsContent);
   } catch (error) {
     throw new McpError(
       ErrorCode.InvalidParams,
-      'Results file contains invalid JSON'
+      `Error parsing results file: ${error}`
     );
   }
   
-  // Check if results have the expected structure
-  if (!results.results || !Array.isArray(results.results)) {
-    throw new McpError(
-      ErrorCode.InvalidParams,
-      'Results file has an invalid format (missing results array)'
-    );
-  }
-  
-  // Analyze results
-  const findings = results.results;
+  // Extract relevant data from results
+  const findings = results.results || [];
   const errors = results.errors || [];
   
-  // Group findings by severity
-  const severityGroups: Record<string, number> = {};
-  findings.forEach(finding => {
+  // Count findings by severity
+  const severityCounts: Record<string, number> = {};
+  findings.forEach((finding: any) => {
     const severity = finding.extra.severity || 'unknown';
-    severityGroups[severity] = (severityGroups[severity] || 0) + 1;
+    severityCounts[severity] = (severityCounts[severity] || 0) + 1;
   });
   
-  // Group findings by rule
-  const ruleGroups: Record<string, number> = {};
-  findings.forEach(finding => {
-    ruleGroups[finding.check_id] = (ruleGroups[finding.check_id] || 0) + 1;
+  // Count findings by rule id
+  const ruleCounts: Record<string, number> = {};
+  findings.forEach((finding: any) => {
+    const ruleId = finding.check_id || 'unknown';
+    ruleCounts[ruleId] = (ruleCounts[ruleId] || 0) + 1;
   });
   
-  // Group findings by file
-  const fileGroups: Record<string, number> = {};
-  findings.forEach(finding => {
-    fileGroups[finding.path] = (fileGroups[finding.path] || 0) + 1;
+  // Count findings by language
+  const languageCounts: Record<string, number> = {};
+  findings.forEach((finding: any) => {
+    const language = finding.extra.metadata.language || 'unknown';
+    languageCounts[language] = (languageCounts[language] || 0) + 1;
   });
   
-  // Get top 5 most triggered rules
-  const topRules = Object.entries(ruleGroups)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([rule, count]) => ({ rule, count }));
+  // Count findings by file
+  const fileCounts: Record<string, number> = {};
+  findings.forEach((finding: any) => {
+    const file = finding.path || 'unknown';
+    fileCounts[file] = (fileCounts[file] || 0) + 1;
+  });
   
-  // Get top 5 files with most findings
-  const topFiles = Object.entries(fileGroups)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([file, count]) => ({ file, count }));
-  
-  // Provide analysis summary
+  // Generate analysis summary
   return {
     total_findings: findings.length,
-    errors_count: errors.length,
-    severity_distribution: severityGroups,
-    top_triggered_rules: topRules,
-    top_affected_files: topFiles,
-    errors: errors.length > 0 ? errors : undefined,
-    stats: results.stats
+    total_errors: errors.length,
+    severity_distribution: severityCounts,
+    rule_distribution: ruleCounts,
+    language_distribution: languageCounts,
+    file_distribution: fileCounts,
+    most_vulnerable_files: Object.entries(fileCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([file, count]) => ({ file, count })),
+    most_triggered_rules: Object.entries(ruleCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([rule, count]) => ({ rule, count }))
   };
 }

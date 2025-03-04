@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk';
+import { ErrorCode, McpError } from '../sdk.js';
 import { validateAbsolutePath } from '../utils/index.js';
 
 interface CreateRuleParams {
@@ -19,43 +19,56 @@ interface CreateRuleParams {
  * @returns {Promise<object>} Result of rule creation
  */
 export async function handleCreateRule(params: CreateRuleParams): Promise<object> {
-  // Validate output path
+  // Validate parameters
   const outputPath = validateAbsolutePath(params.output_path, 'output_path');
   
-  // Validate required parameters
   if (!params.pattern) {
-    throw new McpError(ErrorCode.InvalidParams, 'Pattern is required');
-  }
-  if (!params.language) {
-    throw new McpError(ErrorCode.InvalidParams, 'Language is required');
-  }
-  if (!params.message) {
-    throw new McpError(ErrorCode.InvalidParams, 'Message is required');
-  }
-  
-  // Normalize severity to uppercase
-  const severity = (params.severity || 'WARNING').toUpperCase();
-  if (!['ERROR', 'WARNING', 'INFO'].includes(severity)) {
     throw new McpError(
       ErrorCode.InvalidParams,
-      'Severity must be one of: ERROR, WARNING, INFO'
+      'Pattern is required'
     );
   }
   
-  // Generate rule ID if not provided
-  const ruleId = params.id || `custom-rule-${Date.now()}`;
+  if (!params.language) {
+    throw new McpError(
+      ErrorCode.InvalidParams,
+      'Language is required'
+    );
+  }
   
-  // Create rule YAML content
-  const ruleYaml = `rules:
-  - id: ${ruleId}
-    pattern: ${params.pattern}
-    message: ${params.message}
-    languages: [${params.language}]
-    severity: ${severity}
-${params.metadata ? `    metadata:\n${Object.entries(params.metadata).map(([key, value]) => `      ${key}: ${value}`).join('\n')}` : ''}
-`;
+  if (!params.message) {
+    throw new McpError(
+      ErrorCode.InvalidParams,
+      'Message is required'
+    );
+  }
   
-  // Ensure directory exists
+  const validSeverities = ['ERROR', 'WARNING', 'INFO'];
+  const severity = (params.severity || 'WARNING').toUpperCase();
+  
+  if (!validSeverities.includes(severity)) {
+    throw new McpError(
+      ErrorCode.InvalidParams,
+      `Invalid severity: ${params.severity}. Must be one of: ${validSeverities.join(', ')}`
+    );
+  }
+  
+  // Create rule object
+  const ruleId = params.id || 'custom_rule';
+  const rule = {
+    rules: [
+      {
+        id: ruleId,
+        message: params.message,
+        severity: severity.toLowerCase(),
+        languages: [params.language],
+        pattern: params.pattern,
+        metadata: params.metadata || {}
+      }
+    ]
+  };
+  
+  // Ensure output directory exists
   const outputDir = path.dirname(outputPath);
   try {
     await fs.mkdir(outputDir, { recursive: true });
@@ -66,9 +79,9 @@ ${params.metadata ? `    metadata:\n${Object.entries(params.metadata).map(([key,
     );
   }
   
-  // Write the rule file
+  // Write rule to file
   try {
-    await fs.writeFile(outputPath, ruleYaml, 'utf-8');
+    await fs.writeFile(outputPath, JSON.stringify(rule, null, 2));
   } catch (error: any) {
     throw new McpError(
       ErrorCode.InternalError,
@@ -78,9 +91,8 @@ ${params.metadata ? `    metadata:\n${Object.entries(params.metadata).map(([key,
   
   return {
     status: 'success',
-    message: `Rule '${ruleId}' created successfully`,
+    message: `Rule created successfully at ${outputPath}`,
     rule_id: ruleId,
-    path: outputPath,
-    content: ruleYaml
+    rule_path: outputPath
   };
 }
