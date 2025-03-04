@@ -21,8 +21,8 @@ A Model Context Protocol (MCP) Server for integrating Semgrep into Claude and ot
 
 ```bash
 # Clone the repository
-git clone https://github.com/Szowesgad/semgrep-mcp-server.git
-cd semgrep-mcp-server
+git clone https://github.com/Szowesgad/mcp-server-semgrep.git
+cd mcp-server-semgrep
 
 # Install dependencies
 pnpm install
@@ -41,7 +41,7 @@ To integrate this server with Claude Desktop, add the following to your Claude D
     "semgrep": {
       "command": "node",
       "args": [
-        "/path/to/semgrep-mcp-server/build/index.js"
+        "/path/to/mcp-server-semgrep/build/index.js"
       ],
       "env": {
         "MCP_LOG_DIR": "/path/to/log/directory"
@@ -51,7 +51,7 @@ To integrate this server with Claude Desktop, add the following to your Claude D
 }
 ```
 
-Make sure to replace `/path/to/semgrep-mcp-server/` with the actual path where you cloned the repository.
+Make sure to replace `/path/to/mcp-server-semgrep/` with the actual path where you cloned the repository.
 
 ## Available Tools
 
