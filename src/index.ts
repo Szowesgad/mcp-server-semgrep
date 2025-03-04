@@ -244,7 +244,7 @@ class SemgrepServer {
 
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('Semgrep MCP Server running on stdio');
+    console.error('MCP Server Semgrep running on stdio');
   }
 }
 
