@@ -8,10 +8,10 @@ First, make sure you have Node.js (v18+) installed, as well as Python and pip3 (
 
 ```bash
 # Install from npm (once published)
-npm install -g semgrep-mcp-server
+npm install -g mcp-server-semgrep
 
 # Or directly from GitHub
-npm install -g git+https://github.com/Szowesgad/semgrep-mcp-server.git
+npm install -g git+https://github.com/Szowesgad/mcp-server-semgrep.git
 ```
 
 ## Running the Server

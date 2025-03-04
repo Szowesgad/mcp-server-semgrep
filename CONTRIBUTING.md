@@ -1,12 +1,12 @@
 # Contributing to Semgrep MCP Server
 
-Thank you for considering contributing to semgrep-mcp-server! This guide will help you get started.
+Thank you for considering contributing to mcp-server-semgrep! This guide will help you get started.
 
 ## Development Setup
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/semgrep-mcp-server.git`
-3. Install dependencies: `npm install`
+2. Clone your fork: `git clone https://github.com/Szowesgad/mcp-server-semgrep.git`
+3. Install dependencies: `pnpm install`
 4. Make sure you have Python and pip3 installed (required for Semgrep)
 
 ## Testing Your Changes
@@ -14,13 +14,13 @@ Thank you for considering contributing to semgrep-mcp-server! This guide will he
 Before submitting a PR, make sure all tests pass:
 
 ```bash
-npm test
+pnpm test
 ```
 
 You can also run the linter:
 
 ```bash
-npm run lint
+pnpm run lint
 ```
 
 ## Code Structure
@@ -34,7 +34,7 @@ npm run lint
 
 1. Create a branch for your changes: `git checkout -b feature/your-feature-name`
 2. Make your changes
-3. Run tests: `npm test`
+3. Run tests: `pnpm test`
 4. Commit your changes: `git commit -m "Description of your changes"`
 5. Push to your fork: `git push origin feature/your-feature-name`
 6. Create a pull request
