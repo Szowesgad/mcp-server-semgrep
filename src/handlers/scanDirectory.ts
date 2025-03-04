@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk';
+import { ErrorCode, McpError } from '../sdk.js';
 import { validateAbsolutePath, validateConfig, executeSemgrepCommand } from '../utils/index.js';
 import { DEFAULT_SEMGREP_CONFIG, ResultFormat } from '../config.js';
 
