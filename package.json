@@ -1,7 +1,7 @@
 {
   "name": "semgrep-server",
   "version": "1.0.0",
-  "description": "MCP Server for Semgrep Integration",
+  "description": "MCP Server for Semgrep Integration with custom protocol implementation",
   "main": "build/index.js",
   "type": "module",
   "scripts": {
@@ -22,7 +22,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.1",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
     "@typescript-eslint/parser": "^8.25.0",
