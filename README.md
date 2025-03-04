@@ -1,4 +1,4 @@
-# Semgrep MCP Server
+# @mcp-server-semgrep
 
 A Model Context Protocol (MCP) Server for integrating Semgrep into Claude and other LLM environments. This server enables AI assistants to perform static code analysis, manage Semgrep rules, and help identify security vulnerabilities in your code.
 
@@ -175,4 +175,4 @@ pnpm start
 
 ## License
 
-ISC License
+MIT License
