@@ -320,7 +320,8 @@ export class Server {
           serverInfo: {
             name: this.config.name,
             version: this.config.version
-          }
+          },
+          capabilities: this.options.capabilities || {}
         });
         return;
       }
