@@ -1,0 +1,40 @@
+            - name: Run node tests
+  # You may pin to the exact commit or the version.
+  # uses: alleyinteractive/action-test-node@68767ab3141fd72b96fae2405dc65e50bf774dd3
+  uses: alleyinteractive/action-test-node@v1.0.2
+  with:
+    # Node.js version to use
+    node-version: # optional, default is lts/*
+    # npm version to use if different from the default
+    npm-version: # optional, default is 
+    # Directory to run the commands in
+    working-directory: # optional, default is .
+    # Path to the dependency file to use for caching (relative to working-directory)
+    cache-dependency-path: # optional, default is package-lock.json
+    # Skip npm install
+    install-skip: # optional, default is false
+    # Skip npm install
+    skip-install: # optional, default is false
+    # Command to run npm ci/install
+    install-command: # optional, default is npm ci
+    # Skip npm audit
+    audit-skip: # optional, default is false
+    # Skip npm audit
+    skip-audit: # optional, default is false
+    # Command to run npm audit
+    audit-command: # optional, default is npm audit --audit-level=high --production
+    # Skip tests
+    test-skip: # optional, default is false
+    # Skip tests
+    skip-test: # optional, default is false
+    # Command to run tests
+    test-command: # optional, default is npm test
+    # Skip build
+    build-skip: # optional, default is false
+    # Skip build
+    skip-build: # optional, default is false
+    # Command to run build
+    build-command: # optional, default is npm run build
+    # Cache node_modules (in addition to setup-node npm cache)
+    cache-node-modules: # optional, default is false
+          
