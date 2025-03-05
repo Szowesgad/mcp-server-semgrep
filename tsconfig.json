@@ -12,7 +12,13 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@modelcontextprotocol/sdk": ["node_modules/@modelcontextprotocol/sdk/dist/esm"],
+      "@modelcontextprotocol/sdk/*": ["node_modules/@modelcontextprotocol/sdk/dist/esm/*"],
+      "@modelcontextprotocol/sdk/server": ["node_modules/@modelcontextprotocol/sdk/dist/esm/server"],
+      "@modelcontextprotocol/sdk/shared": ["node_modules/@modelcontextprotocol/sdk/dist/esm/shared"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build"]
