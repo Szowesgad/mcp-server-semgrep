@@ -278,6 +278,7 @@ export class Server {
         let request;
         try {
           request = JSON.parse(line);
+          console.error(`[MCP DEBUG] Parsed request: ${JSON.stringify(request)}`);
         } catch (e) {
           console.error(`[MCP DEBUG] JSON parse error: ${e}`);
           await this.sendError(null, ErrorCode.ParseError, 'Invalid JSON');
@@ -287,17 +288,16 @@ export class Server {
         // Process the request
         await this.handleRequest(request);
       } catch (error) {
+        console.error('[MCP DEBUG] Error processing request:', error);
         if (this.onerror) this.onerror(error);
-        else console.error('Error processing request:', error);
       }
     }
   }
 
   private async handleRequest(request: any): Promise<void> {
-    const id = request?.id || null;
+    const id = request.hasOwnProperty('id') ? request.id : null;
 
-    // Verify JSON-RPC format
-    if (request.jsonrpc !== '2.0' || !request.method) {
+    if (request.jsonrpc !== '2.0' || typeof request.method !== 'string') {
       await this.sendError(id, ErrorCode.InvalidRequest, 'Invalid JSON-RPC request');
       return;
     }
@@ -306,53 +306,71 @@ export class Server {
       let handler: Function | undefined;
       let handlerSchema: JsonSchema | undefined;
 
-      if (request.method === 'list_tools') {
-        handler = this.requestHandlers.get(ListToolsRequestSchema);
-        handlerSchema = ListToolsRequestSchema;
-      } else if (request.method === 'call_tool') {
-        handler = this.requestHandlers.get(CallToolRequestSchema);
-        handlerSchema = CallToolRequestSchema;
-      } else if (request.method === 'initialize') {
-        // Special handling for initialize method
-        console.error(`[MCP DEBUG] Received initialize request: ${JSON.stringify(request)}`);
-        await this.sendResult(id, {
-          protocolVersion: request.params.protocolVersion,
-          serverInfo: {
-            name: this.config.name,
-            version: this.config.version
-          },
-          capabilities: this.options.capabilities || {}
-        });
-        return;
+      switch (request.method) {
+        case 'initialize':
+          await this.sendResult(id, {
+            protocolVersion: request.params.protocolVersion,
+            serverInfo: {
+              name: this.config.name,
+              version: this.config.version
+            },
+            capabilities: this.options.capabilities || {}
+          });
+          return;
+
+        case 'notifications/cancelled':
+          console.error(`[MCP DEBUG] Cancelled notification received: ${JSON.stringify(request)}`);
+          await this.sendResult(id, { cancelled: true });
+          return;
+
+        case 'list_tools':
+          handler = this.requestHandlers.get(ListToolsRequestSchema);
+          handlerSchema = ListToolsRequestSchema;
+          break;
+
+        case 'call_tool':
+          handler = this.requestHandlers.get(CallToolRequestSchema);
+          handlerSchema = CallToolRequestSchema;
+          break;
+
+        default:
+          await this.sendError(id, ErrorCode.MethodNotFound, `Method ${request.method} not found`);
+          return;
       }
 
       if (!handler || !handlerSchema) {
-        console.error(`[MCP DEBUG] Method not found: ${request.method}`);
-        await this.sendError(id, ErrorCode.MethodNotFound, `Method ${request.method} not found`);
+        await this.sendError(id, ErrorCode.MethodNotFound, `Handler not found for method ${request.method}`);
         return;
       }
 
-      // Validate request against schema
       if (!validateSchema(request, handlerSchema)) {
-        console.error(`[MCP DEBUG] Invalid params: ${JSON.stringify(request)}`);
         await this.sendError(id, ErrorCode.InvalidParams, 'Invalid parameters');
         return;
       }
 
-      // Call the handler and send the result
-      console.error(`[MCP DEBUG] Calling handler for ${request.method}`);
       const result = await handler(request);
-      console.error(`[MCP DEBUG] Handler result: ${JSON.stringify(result)}`);
       await this.sendResult(id, result);
     } catch (error) {
-      console.error(`[MCP DEBUG] Error handling request: ${error}`);
+      console.error(`[MCP DEBUG] Exception handling request: ${error}`);
       if (error instanceof McpError) {
         await this.sendError(id, error.code, error.message, error.data);
       } else {
-        const err = error as Error;
-        await this.sendError(id, ErrorCode.InternalError, err.message || 'Internal error');
+        await this.sendError(id, ErrorCode.InternalError, 'Internal error', error);
       }
     }
+  }
+
+  public async sendProgressNotification(progressMessage: string): Promise<void> {
+    if (!this.transport) throw new Error('Transport not connected');
+
+    const notification = {
+      jsonrpc: '2.0',
+      method: 'progressNotification',
+      params: { message: progressMessage },
+    };
+
+    console.error(`[MCP DEBUG] Sending progress notification: ${JSON.stringify(notification)}`);
+    await this.transport.write(JSON.stringify(notification));
   }
 
   private async sendResult(id: string | number | null, result: any): Promise<void> {
