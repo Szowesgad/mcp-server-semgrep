@@ -1,23 +1,23 @@
 /**
  * MCP Protocol Bridge
  * 
- * This file serves as a compatibility layer between the previous SDK-based implementation
- * and our new custom MCP implementation. This allows for a smooth transition
- * without changing the rest of the codebase.
+ * Ten plik służy jako warstwa kompatybilności między kodem projektu
+ * a oficjalnym SDK MCP. Wcześniej używaliśmy własnej implementacji,
+ * ale powróciliśmy do oficjalnego SDK dla lepszej zgodności z protokołem.
  * 
- * Benefits:
- * - No external SDK dependency
- * - Better control over protocol implementation
- * - Simplified imports
- * - Improved maintainability
+ * Zalety:
+ * - Pełna kompatybilność z protokołem MCP
+ * - Łatwiejsza obsługa powiadomień i błędów
+ * - Standardowy sposób obsługi zapytań i odpowiedzi
+ * - Lepsze wsparcie dla przyszłych wersji protokołu
  */
 
-// Export all components from our custom MCP implementation
+// Eksportujemy komponenty z oficjalnego SDK
+export { Server } from '@modelcontextprotocol/sdk/server';
+export { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio';
 export {
-  Server,
-  StdioServerTransport,
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
   McpError
-} from './mcp/index.js';
+} from '@modelcontextprotocol/sdk/shared';
