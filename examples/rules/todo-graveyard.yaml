@@ -1,0 +1,21 @@
+rules:
+  - id: todo-graveyard-finder
+    pattern-regex: "// TODO.*\\(.*([1-9]|0[1-9])/202[0-2]\\).*"
+    message: "💀 TODO GRAVEYARD FOUND! 💀 This TODO comment is over a year old. It's been collecting dust since 2020-2022. Resurrect by implementing or remove if no longer relevant."
+    languages: [javascript, typescript, jsx, tsx, java, python, go]
+    severity: WARNING
+    metadata:
+      category: maintenance
+      impact: "Lingering TODOs create false expectations and technical debt"
+      fix: "Implement the TODO or remove if no longer relevant"
+      examples:
+        - before: |
+            // TODO(johndoe): This is a quick hack, refactor later (03/2020)
+            function someFunction() {
+              // ...
+            }
+        - after: |
+            // Properly implemented with good design pattern
+            function someFunction() {
+              // ...
+            }

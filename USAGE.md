@@ -295,6 +295,18 @@ Consider creating rules for:
 - Security requirements
 - Performance optimization patterns
 
+### Fun and Practical Example Rules
+
+Check out our [examples/](examples/) directory for a collection of amusing but practical rules that can detect common code issues:
+
+- **Z-Index Apocalypse Detector**: Find absurdly high z-index values
+- **TODO Graveyard Finder**: Discover ancient TODO comments from years past
+- **Magic Number Festival**: Locate mysterious magic numbers throughout your code
+- **Console.log Infestation**: Detect debug statements that shouldn't be in production
+- **Nested Code Labyrinth**: Find code with excessive nesting levels
+
+These rules demonstrate both the power of Semgrep and common issues that plague many codebases. They're written with humor but address real problems that affect code quality and maintainability.
+
 ### Embedding in Development Culture
 
 For maximum benefit:
@@ -302,3 +314,4 @@ For maximum benefit:
 - Create team-specific rulesets
 - Regular reviews and updates of rules
 - Share and celebrate improvements over time
+- Use humor (like our example rules) to make the process enjoyable

@@ -210,6 +210,7 @@ src/
 Detailed information on using the tool can be found in:
 - [USAGE.md](USAGE.md) - Detailed usage instructions
 - [README_PL.md](README_PL.md) - Documentation in Polish
+- [examples/](examples/) - Example fun and practical Semgrep rules - "The Hall of Code Horrors"
 
 ## License
 

@@ -1,0 +1,26 @@
+rules:
+  - id: console-log-infestation
+    pattern-either:
+      - pattern: "console.log($...)"
+      - pattern: "console.debug($...)"
+      - pattern: "console.info($...)"
+    message: "🪳 CONSOLE.LOG INFESTATION! 🪳 A console.log has nested into your production code. These multiply quickly if left unchecked. Consider using a proper logger that can be disabled in production."
+    languages: [javascript, typescript, jsx, tsx]
+    severity: INFO
+    metadata:
+      category: best-practice
+      impact: "Console logs pollute browser consoles and may expose sensitive information"
+      fix: "Replace with proper logger or remove"
+      examples:
+        - before: |
+            function processUserData(user) {
+              console.log('Processing user:', user);
+              // User object could contain PII or sensitive data!
+            }
+        - after: |
+            import logger from './logger';
+            
+            function processUserData(user) {
+              logger.debug('Processing user ID:', user.id);
+              // Logs only necessary information, can be disabled in production
+            }

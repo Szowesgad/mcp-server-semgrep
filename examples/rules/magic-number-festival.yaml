@@ -1,0 +1,27 @@
+rules:
+  - id: magic-number-festival
+    pattern-either:
+      - pattern: |
+          $X = $NUM * 60 * 60 * 24
+      - pattern: |
+          setTimeout($FUNC, $NUM * 60 * 60 * 1000)
+      - pattern: |
+          if ($VALUE > 1000)
+      - pattern: |
+          return $VALUE + 86400
+    pattern-not-regex: "^[0-9]*[05]$|^[01]$" # Allow 0, 1, 5, 10, 15, etc.
+    message: "🎪 MAGIC NUMBER FESTIVAL! 🎪 Found a mysterious numeric value. Numbers like these confuse future developers. Extract to a named constant that explains its purpose."
+    languages: [javascript, typescript, jsx, tsx]
+    severity: WARNING
+    metadata:
+      category: maintainability
+      impact: "Magic numbers reduce code readability and make maintenance difficult"
+      fix: "Extract to a named constant with descriptive name"
+      examples:
+        - before: |
+            // What does 86400 mean? 🤔
+            const cacheTime = 86400;
+        - after: |
+            // Clear and descriptive 👍
+            const ONE_DAY_IN_SECONDS = 86400;
+            const cacheTime = ONE_DAY_IN_SECONDS;

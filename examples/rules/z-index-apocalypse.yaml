@@ -1,0 +1,28 @@
+rules:
+  - id: z-index-apocalypse-detector
+    pattern-either:
+      - pattern: "z-index: 999;"
+      - pattern: "z-index: 9999;"
+      - pattern: "z-index: 10000;"
+      - pattern: "z-index: 99999;"
+      - pattern: "z-index: 999999;"
+      - pattern: "z-index: 9999999;"
+    message: "⚠️ Z-INDEX APOCALYPSE DETECTED! ⚠️ You're using an absurdly high z-index value. Are you trying to place elements in orbit? Consider using our z-index system with predefined constants."
+    languages: [css, scss, less]
+    severity: WARNING
+    metadata:
+      category: style
+      impact: "Ridiculous z-index values lead to CSS chaos and maintainability nightmares"
+      fix: "Replace with semantic z-index constants from our design system"
+      examples:
+        - before: |
+            .popup {
+              z-index: 999999; /* Must be above EVERYTHING!!! */
+            }
+        - after: |
+            /* Import z-index system */
+            @import 'styles/z-index.scss';
+            
+            .popup {
+              z-index: $z-modal;
+            }

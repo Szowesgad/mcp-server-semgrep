@@ -210,6 +210,7 @@ src/
 Szczegółowe informacje dotyczące używania narzędzia znajdziesz w:
 - [USAGE.md](USAGE.md) - Szczegółowa instrukcja użytkowania
 - [README_EN.md](README_EN.md) - Dokumentacja w języku angielskim
+- [examples/](examples/) - Przykładowe zabawne i praktyczne reguły Semgrep - "Galeria Horrorów Kodu"
 
 ## Licencja
 

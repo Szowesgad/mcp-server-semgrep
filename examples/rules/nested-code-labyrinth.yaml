@@ -1,0 +1,48 @@
+rules:
+  - id: nested-code-labyrinth
+    pattern: |
+      if ($COND1) {
+        ...
+        if ($COND2) {
+          ...
+          if ($COND3) {
+            ...
+            if ($COND4) {
+              ...
+            }
+          }
+        }
+      }
+    message: "🌀 NESTED CODE LABYRINTH DISCOVERED! 🌀 This code has 4+ levels of nesting. Even the Minotaur would get lost in here. Consider refactoring using early returns, guard clauses, or extracting functions."
+    languages: [javascript, typescript, java, python, go]
+    severity: WARNING
+    metadata:
+      category: complexity
+      impact: "Deeply nested code is difficult to read, test, and maintain"
+      fix: "Refactor using early returns or extract complex logic into separate functions"
+      examples:
+        - before: |
+            function processOrder(order) {
+              if (order) {
+                if (order.items) {
+                  if (order.items.length > 0) {
+                    if (order.paymentComplete) {
+                      // Actually do something after 4 levels of nesting!
+                      return order.items;
+                    }
+                  }
+                }
+              }
+              return [];
+            }
+        - after: |
+            function processOrder(order) {
+              // Guard clauses make the code flat and readable
+              if (!order) return [];
+              if (!order.items) return [];
+              if (order.items.length === 0) return [];
+              if (!order.paymentComplete) return [];
+              
+              // Main logic is now at top level
+              return order.items;
+            }
