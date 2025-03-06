@@ -4,18 +4,18 @@
 
 ## O projekcie
 
-Ten projekt został początkowo zainspirowany przez [stefanskiasan/mcp-server-semgrep](https://github.com/stefanskiasan/mcp-server-semgrep), ale ewoluował z istotnymi zmianami architektonicznymi, w tym własną implementacją protokołu MCP dla poprawy stabilności i łatwiejszej konserwacji.
+Ten projekt został początkowo zainspirowany przez The Replit Team i Agenta V2, zaś w poszukiwaniach gotowej implementacji mcp-servera korzystającego z `grep` | ` [stefanskiasan/mcp-server-semgrep](https://github.com/stefanskiasan/mcp-server-semgrep), ale ewoluował z istotnymi zmianami architektonicznymi, w tym własną implementacją protokołu MCP dla poprawy stabilności i łatwiejszej konserwacji.
 
 MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), który integruje narzędzie analizy statycznej Semgrep z asystentami AI, takimi jak Anthropic Claude. Umożliwia przeprowadzanie zaawansowanych analiz kodu bezpośrednio w interfejsie konwersacyjnym.
 
-## Kluczowe ulepszenia
+## Kluczowe cechy
 
 - Niestandardowa implementacja MCP upraszczająca bazę kodu
 - Zmniejszona liczba zależności zewnętrznych dla lepszej konserwacji długoterminowej
 - Usprawniony protokół komunikacji skoncentrowany na przypadkach użycia Semgrep
 - Zreorganizowana struktura projektu i modularyzacja
 - Ulepszona obsługa błędów i bezpieczeństwo
-- Przejście na interfejs w języku angielskim
+- Interfejs i dokumentacja w języku angielskim
 - Kompleksowe testy jednostkowe
 - Rozbudowana dokumentacja
 
@@ -138,6 +138,7 @@ Ten projekt jest licencjonowany na warunkach licencji MIT - zobacz plik [LICENSE
 
 ## Podziękowania
 
+- 
 - [stefanskiasan](https://github.com/stefanskiasan) za oryginalną inspirację
 - [Anthropic](https://www.anthropic.com/) za Claude i protokół MCP
 - [Semgrep](https://semgrep.dev/) za ich świetne narzędzie do analizy statycznej

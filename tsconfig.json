@@ -17,6 +17,7 @@
       "@modelcontextprotocol/sdk": ["node_modules/@modelcontextprotocol/sdk/dist/esm"],
       "@modelcontextprotocol/sdk/*": ["node_modules/@modelcontextprotocol/sdk/dist/esm/*"],
       "@modelcontextprotocol/sdk/server": ["node_modules/@modelcontextprotocol/sdk/dist/esm/server"],
+      "@modelcontextprotocol/sdk/server/stdio": ["node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio"],
       "@modelcontextprotocol/sdk/shared": ["node_modules/@modelcontextprotocol/sdk/dist/esm/shared"]
     }
   },

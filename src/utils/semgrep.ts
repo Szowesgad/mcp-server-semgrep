@@ -6,16 +6,35 @@ import { DEFAULT_TIMEOUT } from '../config.js';
 export const execAsync = promisify(exec);
 
 /**
- * Checks if semgrep is installed
+ * Checks if semgrep is installed, looking in common installation paths
  * @returns {Promise<boolean>} True if semgrep is installed
  */
 export async function checkSemgrepInstallation(): Promise<boolean> {
-  try {
-    await execAsync('semgrep --version');
-    return true;
-  } catch (error) {
-    return false;
+  // List of common paths where semgrep might be installed
+  const commonPaths = [
+    'semgrep', // Default PATH
+    '/usr/local/bin/semgrep',
+    '/usr/bin/semgrep',
+    '/opt/homebrew/bin/semgrep', // Homebrew on macOS
+    '/opt/semgrep/bin/semgrep',
+    '/home/linuxbrew/.linuxbrew/bin/semgrep', // Homebrew on Linux
+    '/snap/bin/semgrep', // Snap on Linux
+  ];
+
+  // Try each path
+  for (const semgrepPath of commonPaths) {
+    try {
+      await execAsync(`${semgrepPath} --version`);
+      // If successful, update the semgrep path for future commands
+      global.semgrepExecutable = semgrepPath;
+      return true;
+    } catch (error) {
+      // Continue to next path
+      continue;
+    }
   }
+
+  return false;
 }
 
 /**
@@ -40,16 +59,34 @@ export async function ensureSemgrepAvailable(): Promise<void> {
  * @param {number} timeout Timeout in milliseconds
  * @returns {Promise<{stdout: string, stderr: string}>} Command output
  */
+// Add a global variable to store the semgrep executable path
+declare global {
+  var semgrepExecutable: string;
+}
+
+// Default to 'semgrep' and will be updated when we find actual path
+global.semgrepExecutable = 'semgrep';
+
 export async function executeSemgrepCommand(
   args: string[],
   timeout: number = DEFAULT_TIMEOUT
 ): Promise<{ stdout: string, stderr: string }> {
+  // Use the discovered semgrep path
+  const semgrepPath = global.semgrepExecutable;
+  
   // Join arguments with proper escaping
-  const command = ['semgrep', ...args]
+  const command = [semgrepPath, ...args]
     .map(arg => arg.includes(' ') ? `\"${arg}\"` : arg)
     .join(' ');
   
   // Execute with timeout
   const options = { timeout };
-  return execAsync(command, options);
+  
+  try {
+    return await execAsync(command, options);
+  } catch (error: any) {
+    console.error(`Error executing Semgrep command: ${command}`);
+    console.error(`${error.message}`);
+    throw error;
+  }
 }

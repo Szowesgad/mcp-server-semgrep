@@ -10,6 +10,9 @@ declare global {
     constructor(code: ErrorCode, message: string);
     code: ErrorCode;
   }
+
+  // Path to the semgrep executable
+  var semgrepExecutable: string;
 }
 
 export {};

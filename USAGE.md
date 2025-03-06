@@ -1,4 +1,4 @@
-# Using Semgrep MCP Server
+# Using MCP Server Semgrep
 
 This guide describes how to use the Semgrep MCP Server in your development workflow.
 
