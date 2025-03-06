@@ -1,42 +1,166 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
-  <!-- Background -->
-  <rect width="400" height="200" fill="#1e293b" rx="10" ry="10" />
-  
-  <!-- Code pattern background -->
-  <g fill="#334155" opacity="0.3">
-    <text x="20" y="30" font-family="monospace" font-size="10">{semgrep scan --pattern "dangerous.pattern()"}</text>
-    <text x="20" y="45" font-family="monospace" font-size="10">func securityCheck() {</text>
-    <text x="20" y="60" font-family="monospace" font-size="10">  validateInput(userInput)</text>
-    <text x="20" y="75" font-family="monospace" font-size="10">  sanitize(data)</text>
-    <text x="20" y="90" font-family="monospace" font-size="10">  return safeOutput</text>
-    <text x="20" y="105" font-family="monospace" font-size="10">}</text>
-    <text x="20" y="135" font-family="monospace" font-size="10">// MCP Protocol Implementation</text>
-    <text x="20" y="150" font-family="monospace" font-size="10">const server = new Server({</text>
-    <text x="20" y="165" font-family="monospace" font-size="10">  tools: [SemgrepTool, AnalysisTool]</text>
-    <text x="20" y="180" font-family="monospace" font-size="10">});</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Pixodesk SVG (https://pixodesk.com) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" fill="url(#13362)">
+  <defs>
+    <linearGradient id="13362" x1="0.5631584278768287" y1="99.0144305184552" x2="399.9781705834684" y2="99.0144305184552" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgb(255,255,255)"/>
+      <stop offset="100%" stop-color="rgba(135,100,163,0.172)"/>
+    </linearGradient>
+    <radialGradient id="161054" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="161054" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="164363" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="161054" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="164363" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="151170" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="151170" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="151170" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(198,215,224)"/>
+    </radialGradient>
+    <radialGradient id="148610" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(186,206,215)"/>
+    </radialGradient>
+    <radialGradient id="148610" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(186,206,215)"/>
+    </radialGradient>
+    <radialGradient id="148610" spreadMethod="pad" cx="0" cy="0" fx="0" fy="0" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(186,206,215)"/>
+    </radialGradient>
+    <linearGradient id="265757" x1="15.828842637831858" y1="-3.8637772681915" x2="24.37144327085142" y2="-3.8637772681915" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgb(186,206,215)"/>
+      <stop offset="100%" stop-color="rgb(0,0,0)"/>
+    </linearGradient>
+    <radialGradient id="13480" spreadMethod="pad" cx="200.29249392220422" cy="101.96831948946515" fx="200.29249392220422" fy="101.96831948946515" r="98.03168051053487" gradientUnits="userSpaceOnUse">
+      <stop offset="100%" stop-color="rgb(5,3,1)"/>
+      <stop offset="100%" stop-color="rgb(30,41,59)"/>
+    </radialGradient>
+    <filter id="_px_svg_1vrg9nok" data-px-label="Motion Blur" x="-0.5" y="-0.5" width="1.86" height="1.86">
+      <feGaussianBlur stdDeviation="2.1"/>
+    </filter>
+    <filter id="_px_svg_1vrg9noo" data-px-label="Gaussian Blur" x="-0.5" y="-0.5" width="2" height="2">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="_px_svg_1vrg9non" data-px-label="Drop Shadow" x="-0.5" y="-0.5" width="2" height="2">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="7" dy="9"/>
+      <feComponentTransfer result="offsetblur">
+        <feFuncA/>
+      </feComponentTransfer>
+      <feFlood flood-color="#000000"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="13362" x1="0.5631584278768287" y1="99.0144305184552" x2="399.9781705834684" y2="99.0144305184552" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgb(255,255,255)"/>
+      <stop offset="100%" stop-color="rgba(135,100,163,0.172)"/>
+    </linearGradient>
+  </defs>
+  <g fill="#f8f8fc" transform="translate(-18, 1)"/>
+  <path fill="url(#13480)" stroke-width="16" stroke-linecap="square" stroke-linejoin="round" filter="url(#_px_svg_1vrg9nok) url(#_px_svg_1vrg9noo)" vector-effect="fixed-position" transform="translate(-1.0218, -0.3849)" d="M389.0448,3.9366C394.5676,3.9366,400,4.8709,400,10.3938L400,190C400,195.5228,395.5228,200,390,200L10.585,200C5.0621,200,0.585,195.5228,0.585,190L0.585,10.3938C0.585,4.8709,6.0807,4.1266,11.6035,4.1266L389.0448,3.9366z"/>
+  <g opacity="0.36" filter="url(#_px_svg_1vrg9non)" shape-rendering="crispEdges" vector-effect="non-scaling-size" transform="translate(4, 0)" style="mix-blend-mode:difference;isolation:isolate">
+    <path fill="#1e293b" opacity="0" d="M390,0C395.5228,0,400,4.4772,400,10L400,190C400,195.5228,395.5228,200,390,200L10,200C4.4772,200,0,195.5228,0,190L0,10C0,4.4772,4.4772,0,10,0L390,0z" style="mix-blend-mode:lighten"/>
+    <g fill="#f8f8fc" opacity="0.51" transform="translate(-14, 0)">
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="30" data-gn-el-type="text" style="white-space:pre"><tspan>{semgrep scan --pattern &quot;dangerous.pattern()&quot;}</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="45" data-gn-el-type="text" style="white-space:pre"><tspan>func securityCheck() {</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="60" data-gn-el-type="text" style="white-space:pre"><tspan>validateInput(userInput)</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="75" data-gn-el-type="text" style="white-space:pre"><tspan>sanitize(data)</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="90" data-gn-el-type="text" style="white-space:pre"><tspan>return safeOutput</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="105" data-gn-el-type="text" style="white-space:pre"><tspan>}</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="135" data-gn-el-type="text" style="white-space:pre"><tspan>// MCP Protocol Implementation</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="150" data-gn-el-type="text" style="white-space:pre"><tspan>const server = new Server({</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="165" data-gn-el-type="text" style="white-space:pre"><tspan>tools: [SemgrepTool, AnalysisTool]</tspan></text>
+      <text font-family="monospace" font-size="10" xml:space="preserve" x="20" y="180" data-gn-el-type="text" style="white-space:pre"><tspan>});</tspan></text>
+    </g>
+    <g transform="translate(297, 100)">
+      <ellipse fill="#000000" stroke="#f8f8fc2c" stroke-width="4" rx="70" ry="70"/>
+      <path fill="none" stroke="#34d39982" stroke-width="3" d="M0,-50L43.3,-25L43.3,25L0,50L-43.3,25L-43.3,-25L0,-50z"/>
+      <path fill="none" stroke="#f871716c" stroke-width="3" d="M0,-30L25,-20L25,10C25,20,0,30,0,30C0,30,-25,20,-25,10L-25,-20L0,-30z"/>
+      <path fill="none" stroke="#f8fafc4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M-15,-15L-25,-5L-15,5"/>
+      <path fill="none" stroke="#f8fafc7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M15,-15L25,-5L15,5"/>
+      <path stroke="#cbd5e175" stroke-width="2" stroke-dasharray="4 2" transform="translate(-1, -5)" d="M-25,0L25,0"/>
+    </g>
+    <g fill="#f8fafc" transform="translate(-71, -11)"/>
   </g>
-  
-  <!-- Main Logo Elements -->
-  <g transform="translate(200, 100)">
-    <!-- Outer circle -->
-    <circle cx="0" cy="0" r="70" fill="none" stroke="#60a5fa" stroke-width="4" />
-    
-    <!-- Middle hexagon representing code security -->
-    <path d="M 0,-50 L 43.3,-25 L 43.3,25 L 0,50 L -43.3,25 L -43.3,-25 Z" fill="none" stroke="#34d399" stroke-width="3" />
-    
-    <!-- Inner shield shape -->
-    <path d="M 0,-30 L 25,-20 L 25,10 C 25,20 0,30 0,30 C 0,30 -25,20 -25,10 L -25,-20 Z" fill="none" stroke="#f87171" stroke-width="3" />
-    
-    <!-- Code brackets -->
-    <path d="M -15,-15 L -25,-5 L -15,5" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M 15,-15 L 25,-5 L 15,5" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-    
-    <!-- Scanning beam -->
-    <line x1="-25" y1="0" x2="25" y2="0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 2" />
+  <g stroke="#8764a3" stroke-linejoin="round" opacity="0.53" filter="url(#_px_svg_1vrg9nok)" vector-effect="fixed-position" transform="translate(279.1392, 97.1316)scale(-1.13, -1.13)" style="isolation:isolate">
+    <g fill="url(#265757)" fill-opacity="0" stroke-opacity="0" transform="translate(259.3863, 51.7781)scale(-3.9479, 4.4401)translate(-11.2023, 3.8637)">
+      <g transform="translate(29.8287, -34.1968)translate(-16.8275, 10.4791)" data-px-repeater="source-id: _px_svg_1vrg9nom; copies: 9; anchor: 20.096, 17.4826; translate: 0, 0; rotate: 40; skew: 0; scale: 74, 74">
+        <path id="_px_svg_1vrg9nom" fill="#050301" fill-opacity="0.49" fill-rule="evenodd" stroke="#f431314d" stroke-opacity="0" stroke-linecap="round" stroke-linejoin="round" d="M17.4965,-9.8552C17.3996,-9.7697,17.3443,-9.6578,17.33,-9.5404C17.3288,-9.5304,17.3279,-9.5203,17.3273,-9.5102C17.3273,-9.5099,17.3272,-9.5096,17.3272,-9.5094C17.3272,-9.5094,17.3277,-9.5166,17.329,-9.5086C17.3333,-9.4823,17.3442,-9.4408,17.3638,-9.3859C17.3848,-9.3267,17.4112,-9.2653,17.4371,-9.2098C17.4551,-9.1712,17.472,-9.1376,17.4852,-9.1121C17.4861,-9.1102,17.4871,-9.1085,17.4879,-9.1068L21.4922,-4.5412C21.5674,-4.4554,21.611,-4.3466,21.6159,-4.2326L21.6424,-3.6061C21.6472,-3.4921,21.6129,-3.3799,21.5451,-3.2881L18.0455,1.4549C17.9715,1.5553,17.9409,1.6714,17.9491,1.7857C17.95,1.7983,17.9514,1.811,17.9533,1.8237C17.9533,1.824,17.9534,1.8244,17.9535,1.8247C17.9551,1.836,17.9571,1.8471,17.9595,1.8581C17.9841,1.9726,18.0483,2.0779,18.1509,2.1541C18.2549,2.2304,18.376,2.2606,18.4939,2.2495C18.504,2.2486,18.5142,2.2473,18.5243,2.2457C18.5246,2.2457,18.525,2.2456,18.5253,2.2456C18.5253,2.2456,18.5181,2.2467,18.5256,2.2437C18.5503,2.2339,18.5884,2.2144,18.638,2.1836C18.6912,2.1504,18.7456,2.1116,18.7943,2.0744C18.8281,2.0486,18.8574,2.0249,18.8795,2.0066C18.8811,2.0053,18.8826,2.004,18.8841,2.0028L22.8575,-3.3825L22.8079,-4.5578L18.202,-9.809L18.202,-9.809C18.1196,-9.903,18.0124,-9.9577,17.8991,-9.9739C17.8867,-9.9757,17.8743,-9.977,17.8617,-9.9778L17.8607,-9.9779C17.8496,-9.9787,17.8385,-9.9791,17.8274,-9.9791C17.71,-9.9796,17.5931,-9.9394,17.4965,-9.8552zM16.8363,-10.6063C16.8366,-10.6066,16.8369,-10.6068,16.8371,-10.607C16.8374,-10.6073,16.8377,-10.6075,16.838,-10.6077C17.1236,-10.8574,17.4781,-10.9806,17.8315,-10.9791C17.8643,-10.979,17.8971,-10.9778,17.9298,-10.9755C17.967,-10.973,18.0041,-10.9691,18.041,-10.9638C18.3833,-10.9147,18.7093,-10.7472,18.9538,-10.4684C18.9538,-10.4684,18.9538,-10.4684,18.9538,-10.4684L23.6759,-5.0847L23.7996,-4.7761L23.8641,-3.2486C23.8689,-3.1346,23.8346,-3.0224,23.7668,-2.9306L19.6548,2.6425C19.6343,2.6703,19.6109,2.6959,19.5851,2.719C19.5808,2.7228,19.3896,2.8935,19.1667,3.0323C19.0549,3.102,18.8736,3.2037,18.6773,3.2339C18.6474,3.2386,18.6175,3.2423,18.5874,3.2451C18.2329,3.2784,17.8659,3.1858,17.5579,2.9593C17.5575,2.959,17.5571,2.9587,17.5566,2.9584C17.2522,2.7331,17.0562,2.4136,16.9819,2.0686C16.9748,2.0359,16.9689,2.0029,16.964,1.9698C16.9585,1.9325,16.9544,1.8949,16.9517,1.8572C16.927,1.513,17.0209,1.1594,17.2409,0.8613C17.2409,0.8612,17.2409,0.8612,17.2409,0.8612L20.6358,-3.74L20.6242,-4.0143L16.6985,-8.4903C16.6757,-8.5163,16.6556,-8.5446,16.6387,-8.5748C16.6359,-8.5798,16.5099,-8.803,16.4218,-9.0503C16.3776,-9.1744,16.3169,-9.3732,16.3291,-9.5713C16.331,-9.6013,16.3337,-9.6311,16.3373,-9.6609C16.3802,-10.0147,16.5492,-10.3537,16.8363,-10.6063z"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(0.5669,0.4757,-0.4757,0.5669,17.0199,-1.9868)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:1" data-drg-v="27" data-drg-idx="1"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(0.0951,0.5393,-0.5393,0.0951,27.6131,4.9828)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:2" data-drg-v="27" data-drg-idx="2"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(-0.2026,0.3509,-0.3509,-0.2026,30.3029,13.9724)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:3" data-drg-v="27" data-drg-idx="3"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(-0.2818,0.1026,-0.1026,-0.2818,27.5517,20.3478)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:4" data-drg-v="27" data-drg-idx="4"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(-0.2085,-0.0759,0.0759,-0.2085,22.9596,22.6532)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:5" data-drg-v="27" data-drg-idx="5"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(-0.0821,-0.1422,0.1422,-0.0821,19.2598,21.7757)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:6" data-drg-v="27" data-drg-idx="6"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(0.0211,-0.1197,0.1197,0.0211,17.5799,19.5185)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:7" data-drg-v="27" data-drg-idx="7"/>
+        <use href="#_px_svg_1vrg9nom" transform="matrix(0.0689,-0.0578,0.0578,0.0689,17.7013,17.4399)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:27:8" data-drg-v="27" data-drg-idx="8"/>
+      </g>
+      <g transform="translate(0, -2.9896)" data-px-repeater="source-id: _px_svg_1vrg9nol; copies: 9; anchor: 33.2453, -3.8637; translate: 7.8469, -3; rotate: -371; skew: 0; scale: 81, 81">
+        <path id="_px_svg_1vrg9nol" fill="#00ff25" fill-opacity="0.13" stroke="#00ff25" stroke-opacity="0.4" stroke-linecap="round" stroke-linejoin="round" d="M16.5068,-10.9825C16.5069,-10.9826,16.5073,-10.9828,16.5074,-10.9829C16.5075,-10.983,16.5078,-10.9833,16.5079,-10.9834C16.925,-11.3485,17.4522,-11.5097,17.9643,-11.4744C18.4716,-11.4394,18.9674,-11.2112,19.3297,-10.7981L24.168,-5.2818C24.2432,-5.1961,24.2869,-5.0871,24.2917,-4.9732L24.371,-3.0936C24.3758,-2.9797,24.3415,-2.8673,24.2738,-2.7756L20.0572,2.9393C20.0572,2.9393,19.2561,3.6505,18.7536,3.7281C18.2463,3.8064,17.7072,3.6902,17.2608,3.3615L17.26,3.3609C16.8142,3.0313,16.5441,2.5506,16.4693,2.0427C16.3952,1.5396,16.5123,1.0065,16.8385,0.5644L20.0991,-3.8548L16.3226,-8.1606C16.3226,-8.1606,15.7988,-9.095,15.8302,-9.6025"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.7951,-0.1546,0.1546,0.7951,15.2554,1.3466)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:1" data-drg-v="26" data-drg-idx="1"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.6083,-0.2458,0.2458,0.6083,29.6648,0.6577)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:2" data-drg-v="26" data-drg-idx="2"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.4457,-0.2894,0.2894,0.4457,43.0868,-1.519)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:3" data-drg-v="26" data-drg-idx="3"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.3097,-0.299,0.299,0.3097,55.4938,-4.726)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:4" data-drg-v="26" data-drg-idx="4"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.2,-0.2856,0.2856,0.2,66.9345,-8.5954)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:5" data-drg-v="26" data-drg-idx="5"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.1149,-0.258,0.258,0.1149,77.5045,-12.8422)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:6" data-drg-v="26" data-drg-idx="6"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.0515,-0.2229,0.2229,0.0515,87.324,-17.2543)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:7" data-drg-v="26" data-drg-idx="7"/>
+        <use href="#_px_svg_1vrg9nol" transform="matrix(0.0065,-0.1852,0.1852,0.0065,96.521,-21.682)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:26:8" data-drg-v="26" data-drg-idx="8"/>
+      </g>
+    </g>
   </g>
-  
-  <!-- Text Elements -->
-  <g text-anchor="middle" font-family="Arial, sans-serif" fill="#f8fafc">
-    <text x="200" y="196" font-weight="bold" font-size="14">MCP SERVER SEMGREP</text>
+  <g transform="translate(391.0543, 191.0626)rotate(-17)scale(0.79, 0.52)translate(-393.3653, -464.9235)" data-px-repeater="source-id: _px_svg_1vrg9noj; copies: 8; anchor: 48, 2442; translate: -46, -3; rotate: 3; skew: 0; scale: 79, 97">
+    <text id="_px_svg_1vrg9noj" fill="url(#148610)" fill-opacity="0.55" stroke="#452929" stroke-opacity="0.93" stroke-width="0" stroke-dasharray="6 5" opacity="0.53" shape-rendering="optimizeSpeed" rotate="180" letter-spacing="1" font-family="ModernDOS8x16" font-size="24px" xml:space="preserve" data-gn-el-type="text" style="mix-blend-mode:plus-darker;text-transform:lowercase;white-space:pre"><tspan>revres-pcm@</tspan></text>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.7889,0.0413,-0.0508,0.9687,88.1022,71.5217)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:1" data-drg-v="28" data-drg-idx="1"/>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.6207,0.0652,-0.0984,0.9357,166.38,147.7778)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:2" data-drg-v="28" data-drg-idx="2"/>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.487,0.0771,-0.1428,0.9014,235.2784,227.99)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:3" data-drg-v="28" data-drg-idx="3"/>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.381,0.081,-0.1841,0.8659,295.1937,311.4702)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:4" data-drg-v="28" data-drg-idx="4"/>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.2972,0.0796,-0.2223,0.8295,346.4843,397.6033)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:5" data-drg-v="28" data-drg-idx="5"/>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.2312,0.0751,-0.2574,0.7922,389.4798,485.8335)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:6" data-drg-v="28" data-drg-idx="6"/>
+    <use href="#_px_svg_1vrg9noj" transform="matrix(0.1793,0.0688,-0.2896,0.7543,424.4881,575.6546)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:28:7" data-drg-v="28" data-drg-idx="7"/>
+  </g>
+  <g transform="translate(396.1175, 188.027)rotate(-17)scale(0.79, 0.52)translate(-401.5644, -457.4838)" data-px-repeater="source-id: _px_svg_1vrg9noi; copies: 8; anchor: 48, 2442; translate: -46, -3; rotate: 3; skew: 0; scale: 79, 97">
+    <text id="_px_svg_1vrg9noi" fill="url(#151170)" shape-rendering="crispEdges" letter-spacing="1" font-family="ModernDOS8x16" font-size="24px" xml:space="preserve" data-gn-el-type="text" style="mix-blend-mode:lighten;white-space:pre"><tspan>@mcp-server </tspan></text>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.7889,0.0413,-0.0508,0.9687,88.1022,71.5217)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:1" data-drg-v="29" data-drg-idx="1"/>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.6207,0.0652,-0.0984,0.9357,166.38,147.7778)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:2" data-drg-v="29" data-drg-idx="2"/>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.487,0.0771,-0.1428,0.9014,235.2784,227.99)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:3" data-drg-v="29" data-drg-idx="3"/>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.381,0.081,-0.1841,0.8659,295.1937,311.4702)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:4" data-drg-v="29" data-drg-idx="4"/>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.2972,0.0796,-0.2223,0.8295,346.4843,397.6033)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:5" data-drg-v="29" data-drg-idx="5"/>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.2312,0.0751,-0.2574,0.7922,389.4798,485.8335)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:6" data-drg-v="29" data-drg-idx="6"/>
+    <use href="#_px_svg_1vrg9noi" transform="matrix(0.1793,0.0688,-0.2896,0.7543,424.4881,575.6546)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:29:7" data-drg-v="29" data-drg-idx="7"/>
+  </g>
+  <g transform="translate(387.8186, 214.1833)rotate(-17)scale(0.79, 0.52)translate(-392.2471, -453.9086)" data-px-repeater="source-id: _px_svg_1vrg9noh; copies: 8; anchor: 48, 2442; translate: -46, -3; rotate: 3; skew: 0; scale: 79, 97">
+    <text id="_px_svg_1vrg9noh" stroke-dasharray="5 5" shape-rendering="crispEdges" letter-spacing="1" font-family="ModernDOS8x16" font-size="24px" xml:space="preserve" data-gn-el-type="text" style="mix-blend-mode:lighten;text-transform:lowercase;white-space:pre"><tspan fill="url(#161054)" stroke-width="0">semgrep</tspan><tspan fill="url(#164363)"> </tspan></text>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.7889,0.0413,-0.0508,0.9687,88.1022,71.5217)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:1" data-drg-v="30" data-drg-idx="1"/>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.6207,0.0652,-0.0984,0.9357,166.38,147.7778)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:2" data-drg-v="30" data-drg-idx="2"/>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.487,0.0771,-0.1428,0.9014,235.2784,227.99)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:3" data-drg-v="30" data-drg-idx="3"/>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.381,0.081,-0.1841,0.8659,295.1937,311.4702)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:4" data-drg-v="30" data-drg-idx="4"/>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.2972,0.0796,-0.2223,0.8295,346.4843,397.6033)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:5" data-drg-v="30" data-drg-idx="5"/>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.2312,0.0751,-0.2574,0.7922,389.4798,485.8335)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:6" data-drg-v="30" data-drg-idx="6"/>
+    <use href="#_px_svg_1vrg9noh" transform="matrix(0.1793,0.0688,-0.2896,0.7543,424.4881,575.6546)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:30:7" data-drg-v="30" data-drg-idx="7"/>
+  </g>
+  <g transform="translate(374.5926, 221.5836)rotate(-17)scale(0.79, 0.52)translate(-375.8882, -458.2173)" data-px-repeater="source-id: _px_svg_1vrg9nog; copies: 8; anchor: 48, 2442; translate: -46, -3; rotate: 3; skew: 0; scale: 79, 97">
+    <text id="_px_svg_1vrg9nog" fill="#c6d7e053" stroke-dasharray="6 5" opacity="0.41" shape-rendering="optimizeSpeed" rotate="180" text-anchor="middle" letter-spacing="1" font-family="ModernDOS8x16" font-size="24px" xml:space="preserve" data-gn-el-type="text" style="mix-blend-mode:plus-darker;text-transform:lowercase;white-space:pre"><tspan>pergmes</tspan></text>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.7889,0.0413,-0.0508,0.9687,88.1022,71.5217)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:1" data-drg-v="31" data-drg-idx="1"/>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.6207,0.0652,-0.0984,0.9357,166.38,147.7778)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:2" data-drg-v="31" data-drg-idx="2"/>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.487,0.0771,-0.1428,0.9014,235.2784,227.99)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:3" data-drg-v="31" data-drg-idx="3"/>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.381,0.081,-0.1841,0.8659,295.1937,311.4702)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:4" data-drg-v="31" data-drg-idx="4"/>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.2972,0.0796,-0.2223,0.8295,346.4843,397.6033)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:5" data-drg-v="31" data-drg-idx="5"/>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.2312,0.0751,-0.2574,0.7922,389.4798,485.8335)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:6" data-drg-v="31" data-drg-idx="6"/>
+    <use href="#_px_svg_1vrg9nog" transform="matrix(0.1793,0.0688,-0.2896,0.7543,424.4881,575.6546)" class="tpbl drg drg-chk-th" data-drg-tp="elClone" data-drg-id="cln:31:7" data-drg-v="31" data-drg-idx="7"/>
   </g>
 </svg>

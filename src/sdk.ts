@@ -102,6 +102,28 @@ export class Server {
           return;
         }
         
+        // Handle resources/list
+        if (message.method === 'resources/list') {
+          console.error(`[MCP DEBUG] Handling resources/list`);
+          // Return empty resources list
+          await this.sendResponse(message.id, {
+            resources: [],
+            count: 0
+          });
+          return;
+        }
+        
+        // Handle prompts/list
+        if (message.method === 'prompts/list') {
+          console.error(`[MCP DEBUG] Handling prompts/list`);
+          // Return empty prompts list
+          await this.sendResponse(message.id, {
+            prompts: [],
+            count: 0
+          });
+          return;
+        }
+        
         // Handle other messages
         console.error(`[MCP DEBUG] Unhandled message type: ${message.method}`);
         await this.sendError(message.id, ErrorCode.MethodNotFound, `Method ${message.method} not implemented`);
