@@ -2,75 +2,110 @@
 
 ![MCP Server Semgrep Logo](./logo.svg)
 
-## O projekcie
+## About the Project
 
-Ten projekt został początkowo zainspirowany przez [stefanskiasan/mcp-server-semgrep](https://github.com/stefanskiasan/mcp-server-semgrep), ale ewoluował z istotnymi zmianami architektonicznymi, w tym własną implementacją protokołu MCP dla poprawy stabilności i łatwiejszej konserwacji.
+This project was initially inspired by The Replit Team and Agent V2, as well as the implementation by [stefanskiasan/mcp-server-semgrep](https://github.com/stefanskiasan/mcp-server-semgrep), but has evolved with significant architectural improvements, including a custom implementation of the MCP protocol for enhanced stability and easier maintenance.
 
-MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), który integruje narzędzie analizy statycznej Semgrep z asystentami AI, takimi jak Anthropic Claude. Umożliwia przeprowadzanie zaawansowanych analiz kodu bezpośrednio w interfejsie konwersacyjnym.
+MCP Server Semgrep is a Model Context Protocol (MCP) compliant server that integrates the powerful Semgrep static analysis tool with AI assistants like Anthropic Claude. It enables advanced code analysis, security vulnerability detection, and code quality improvements directly through a conversational interface.
 
-## Kluczowe ulepszenia
+## Benefits of Integration
 
-- Niestandardowa implementacja MCP upraszczająca bazę kodu
-- Zmniejszona liczba zależności zewnętrznych dla lepszej konserwacji długoterminowej
-- Usprawniony protokół komunikacji skoncentrowany na przypadkach użycia Semgrep
-- Zreorganizowana struktura projektu i modularyzacja
-- Ulepszona obsługa błędów i bezpieczeństwo
-- Przejście na interfejs w języku angielskim
-- Kompleksowe testy jednostkowe
-- Rozbudowana dokumentacja
+### For Developers and Development Teams:
 
-## Funkcje
+- **Holistic Source Code Analysis** - detecting issues throughout the entire project, not just in individual files
+- **Proactive Error Detection** - identifying potential problems before they become critical bugs
+- **Continuous Code Quality Improvement** - regular scanning and refactoring lead to gradual codebase improvements
+- **Stylistic Consistency** - identification and fixing of inconsistencies in code, such as:
+  - Arbitrary z-index layers in CSS
+  - Inconsistent naming conventions
+  - Code duplication
+  - "Magic numbers" instead of named constants
 
-Semgrep MCP Server zapewnia następujące narzędzia:
+### For Security:
 
-- **scan_directory**: Skanowanie kodu źródłowego pod kątem potencjalnych problemów
-- **list_rules**: Wyświetlanie dostępnych reguł Semgrep
-- **analyze_results**: Szczegółowa analiza wyników skanowania
-- **create_rule**: Tworzenie niestandardowych reguł Semgrep
-- **filter_results**: Filtrowanie wyników według różnych kryteriów
-- **export_results**: Eksportowanie wyników w różnych formatach
-- **compare_results**: Porównywanie dwóch zestawów wyników
+- **Automated Code Verification for Known Vulnerabilities** - scanning for known security issue patterns
+- **Customized Security Rules** - creating project-specific rules
+- **Team Education** - teaching secure programming practices through detection of potential issues
 
-## Instalacja
+### For Project Maintenance and Development:
 
-### Wymagania wstępne
+- **"Live" Documentation** - AI can explain why a code fragment is problematic and how to fix it
+- **Technical Debt Reduction** - systematically detecting and fixing problematic areas
+- **Improved Code Reviews** - automatic detection of common issues allows focus on more complex matters
+
+## Key Features
+
+- Custom MCP implementation simplifying the codebase
+- Reduced external dependencies for better long-term maintenance
+- Streamlined communication protocol focused on Semgrep use cases
+- Reorganized project structure and modularization
+- Enhanced error handling and security
+- Interface and documentation in both English and Polish
+- Comprehensive unit tests
+- Extensive documentation
+
+## Functions
+
+Semgrep MCP Server provides the following tools:
+
+- **scan_directory**: Scanning source code for potential issues
+- **list_rules**: Displaying available rules and languages supported by Semgrep
+- **analyze_results**: Detailed analysis of scan results
+- **create_rule**: Creating custom Semgrep rules
+- **filter_results**: Filtering results by various criteria
+- **export_results**: Exporting results in various formats
+- **compare_results**: Comparing two sets of results (e.g., before and after changes)
+
+## Common Use Cases
+
+- Code security analysis before deployment
+- Detection of common programming errors
+- Enforcing coding standards within a team
+- Refactoring and improving quality of existing code
+- Identifying inconsistencies in styles and code structure (e.g., CSS, component organization)
+- Developer education regarding best practices
+- Verification of fix correctness (comparing before/after scans)
+
+## Installation
+
+### Prerequisites
 
 - Node.js v16+
-- Semgrep CLI zainstalowany globalnie lub lokalnie
-- TypeScript (dla rozwoju)
+- Semgrep CLI installed globally or locally
+- TypeScript (for development)
 
-### Konfiguracja
+### Setup
 
-1. Sklonuj repozytorium:
+1. Clone the repository:
 ```bash
 git clone https://github.com/Szowesgad/mcp-server-semgrep.git
 cd mcp-server-semgrep
 ```
 
-2. Zainstaluj zależności:
+2. Install dependencies:
 ```bash
 npm install
-# lub
+# or
 yarn install
-# lub
+# or
 pnpm install
 ```
 
-3. Zbuduj projekt:
+3. Build the project:
 ```bash
 npm run build
-# lub
+# or
 yarn build
-# lub
+# or
 pnpm run build
 ```
 
-## Integracja z Claude Desktop
+## Integration with Claude Desktop
 
-Aby zintegrować MCP Server Semgrep z Claude Desktop:
+To integrate MCP Server Semgrep with Claude Desktop:
 
-1. Zainstaluj Claude Desktop
-2. Zaktualizuj plik konfiguracyjny Claude Desktop (`claude_desktop_config.json`):
+1. Install Claude Desktop
+2. Update the Claude Desktop configuration file (`claude_desktop_config.json`):
 
 ```json
 {
@@ -78,66 +113,110 @@ Aby zintegrować MCP Server Semgrep z Claude Desktop:
     "semgrep": {
       "command": "node",
       "args": [
-        "/ścieżka/do/projektu/mcp-server-semgrep/build/index.js"
+        "/path/to/project/mcp-server-semgrep/build/index.js"
       ]
     }
   }
 }
 ```
 
-3. Uruchom Claude Desktop i zacznij zadawać pytania dotyczące analizy kodu!
+3. Launch Claude Desktop and start asking questions about code analysis!
 
-## Przykłady użycia
+## Usage Examples
 
-### Skanowanie projektu
-
-```
-Mógłbyś przeskanować mój kod źródłowy w katalogu /projekty/moja-aplikacja pod kątem potencjalnych problemów bezpieczeństwa?
-```
-
-### Tworzenie niestandardowej reguły
+### Project Scanning
 
 ```
-Stwórz regułę Semgrep, która wykrywa nieprawidłowe użycie funkcji sanitizujących dane wejściowe.
+Could you scan my source code in the /projects/my-application directory for potential security issues?
 ```
 
-### Filtrowanie wyników
+### Style Consistency Analysis
 
 ```
-Pokaż mi tylko wyniki skanowania dotyczące podatności na wstrzykiwanie SQL.
+Analyze the z-index values in the project's CSS files and identify inconsistencies and potential layer conflicts.
 ```
 
-## Rozwój
+### Creating a Custom Rule
 
-### Testy
+```
+Create a Semgrep rule that detects improper use of input sanitization functions.
+```
+
+### Filtering Results
+
+```
+Show me only scan results related to SQL injection vulnerabilities.
+```
+
+### Identifying Problematic Patterns
+
+```
+Find all "magic numbers" in the code and suggest replacing them with named constants.
+```
+
+## Creating Custom Rules
+
+You can create custom rules for your project's specific needs. Here are examples of rules you can create:
+
+### Rule to detect inconsistent z-indices:
+
+```yaml
+rules:
+  - id: inconsistent-z-index
+    pattern: z-index: $Z
+    message: "Z-index $Z may not comply with the project's layering system"
+    languages: [css, scss]
+    severity: WARNING
+```
+
+### Rule to detect deprecated imports:
+
+```yaml
+rules:
+  - id: deprecated-import
+    pattern: import $X from 'old-library'
+    message: "You're using a deprecated library. Consider using 'new-library'"
+    languages: [javascript, typescript]
+    severity: WARNING
+```
+
+## Development
+
+### Testing
 
 ```bash
 npm test
-# lub
+# or
 yarn test
-# lub
+# or
 pnpm test
 ```
 
-### Struktura projektu
+### Project Structure
 
 ```
 src/
-  ├── config.ts         # Konfiguracja serwera
-  ├── index.ts          # Punkt wejścia
-  ├── sdk.ts            # Most dla protokołu MCP
-  ├── mcp/              # Własna implementacja MCP
-  ├── handlers/         # Procedury obsługi zapytań
-  ├── utils/            # Funkcje narzędziowe
-  └── types/            # Definicje typów TypeScript
+  ├── config.ts         # Server configuration
+  ├── index.ts          # Entry point
+  ├── sdk.ts            # MCP protocol bridge
+  ├── mcp/              # Custom MCP implementation
+  ├── handlers/         # Request handlers
+  ├── utils/            # Utility functions
+  └── types/            # TypeScript type definitions
 ```
 
-## Licencja
+## Further Documentation
 
-Ten projekt jest licencjonowany na warunkach licencji MIT - zobacz plik [LICENSE](LICENSE) dla szczegółów.
+Detailed information on using the tool can be found in:
+- [USAGE.md](USAGE.md) - Detailed usage instructions
+- [README_PL.md](README_PL.md) - Documentation in Polish
 
-## Podziękowania
+## License
 
-- [stefanskiasan](https://github.com/stefanskiasan) za oryginalną inspirację
-- [Anthropic](https://www.anthropic.com/) za Claude i protokół MCP
-- [Semgrep](https://semgrep.dev/) za ich świetne narzędzie do analizy statycznej
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- [stefanskiasan](https://github.com/stefanskiasan) for the original inspiration
+- [Anthropic](https://www.anthropic.com/) for Claude and the MCP protocol
+- [Semgrep](https://semgrep.dev/) for their excellent static analysis tool

@@ -13,39 +13,39 @@ interface ListRulesParams {
  * @returns {Promise<object>} List of available rules
  */
 export async function handleListRules(params: ListRulesParams): Promise<object> {
-  // Build command arguments
-  const args = ['--list'];
+  // Build command arguments for listing supported languages
+  const args = ['show', 'supported-languages'];
   
-  // Add JSON output format
-  args.push('--json');
-
-  // Add language filter if specified
-  if (params.language) {
-    args.push('--lang', params.language);
-  }
-
-  // Add registry spec if provided (defaults to r/all)
-  const registry = params.registry || 'r/all';
-  args.push(registry);
-
   try {
     // Execute semgrep command
     const { stdout, stderr } = await executeSemgrepCommand(args, params.timeout);
     
-    // Parse results as JSON
-    let rules: object;
-    try {
-      rules = JSON.parse(stdout);
-    } catch (error) {
+    // Parse supported languages list
+    const languagesOutput = stdout.trim();
+    const languagesMatch = languagesOutput.match(/supported languages are: (.*)/);
+    
+    if (!languagesMatch || !languagesMatch[1]) {
       throw new McpError(
         ErrorCode.InternalError,
-        `Error parsing Semgrep output: ${error}`
+        `Unable to parse supported languages from output: ${stdout}`
       );
     }
-
+    
+    // Extract languages
+    const languages = languagesMatch[1].split(', ').sort();
+    
+    // Filter by language if specified
+    let filteredLanguages = languages;
+    if (params.language) {
+      filteredLanguages = languages.filter(lang => 
+        lang.toLowerCase().includes(params.language!.toLowerCase())
+      );
+    }
+    
     return {
       status: 'success',
-      rules
+      languages: filteredLanguages,
+      count: filteredLanguages.length
     };
   } catch (error: any) {
     if (error instanceof McpError) {

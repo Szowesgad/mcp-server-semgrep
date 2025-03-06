@@ -8,5 +8,4 @@ coverage/
 pnpm-lock.yaml
 semgrep.json
 CLAUDE.md
-README_EN.md
-README_EN.md
+test_scan/
