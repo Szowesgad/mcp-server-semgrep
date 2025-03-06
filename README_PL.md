@@ -4,7 +4,7 @@
 
 ## O projekcie
 
-Ten projekt został początkowo zainspirowany przez The Replit Team i Agenta V2, a także implementację [stefanskiasan/mcp-server-semgrep](https://github.com/stefanskiasan/mcp-server-semgrep), ale ewoluował w stronę bardziej solidnej architektury, zawierającej własną implementację protokołu MCP dla zwiększenia stabilności i łatwiejszej konserwacji.
+Ten projekt został początkowo zainspirowany przez The Replit Team i Agenta V2, a także implementację [stefanskiasan/semgrep-mcp-server](https://github.com/stefanskiasan/semgrep-mcp-server), ale ewoluował w stronę bardziej solidnej architektury, zawierającej własną implementację protokołu MCP dla zwiększenia stabilności i łatwiejszej konserwacji.
 
 MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), który integruje potężne narzędzie analizy statycznej Semgrep z asystentami AI, takimi jak Anthropic Claude. Umożliwia przeprowadzanie zaawansowanych analiz kodu, wykrywanie błędów bezpieczeństwa oraz poprawę jakości kodu bezpośrednio w interfejsie konwersacyjnym.
 
@@ -35,9 +35,9 @@ MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), 
 
 ## Kluczowe cechy
 
-- Niestandardowa implementacja MCP upraszczająca bazę kodu
+- Implementacja protokołu MCP dostosowana do potrzeb Semgrep
 - Zmniejszona liczba zależności zewnętrznych dla lepszej konserwacji długoterminowej
-- Usprawniony protokół komunikacji skoncentrowany na przypadkach użycia Semgrep
+- Wydajny protokół komunikacji skoncentrowany na przypadkach użycia Semgrep
 - Zreorganizowana struktura projektu i modularyzacja
 - Ulepszona obsługa błędów i bezpieczeństwo
 - Interfejs i dokumentacja w językach polskim i angielskim
@@ -46,7 +46,7 @@ MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), 
 
 ## Funkcje
 
-Semgrep MCP Server zapewnia następujące narzędzia:
+MCP Server Semgrep zapewnia następujące narzędzia:
 
 - **scan_directory**: Skanowanie kodu źródłowego pod kątem potencjalnych problemów
 - **list_rules**: Wyświetlanie dostępnych reguł i języków obsługiwanych przez Semgrep
@@ -198,8 +198,8 @@ pnpm test
 src/
   ├── config.ts         # Konfiguracja serwera
   ├── index.ts          # Punkt wejścia
-  ├── sdk.ts            # Most dla protokołu MCP
-  ├── mcp/              # Własna implementacja MCP
+  ├── sdk.ts            # Interfejs protokołu MCP
+  ├── mcp/              # Implementacja protokołu MCP
   ├── handlers/         # Procedury obsługi zapytań
   ├── utils/            # Funkcje narzędziowe
   └── types/            # Definicje typów TypeScript
@@ -210,7 +210,7 @@ src/
 Szczegółowe informacje dotyczące używania narzędzia znajdziesz w:
 - [USAGE.md](USAGE.md) - Szczegółowa instrukcja użytkowania
 - [README_EN.md](README_EN.md) - Dokumentacja w języku angielskim
-- [examples/](examples/) - Przykładowe zabawne i praktyczne reguły Semgrep - "Galeria Horrorów Kodu"
+- [examples/](examples/) - Przykładowe życiowe i praktyczne reguły Semgrep - "Galeria Horrorów Kodu"
 
 ## Licencja
 

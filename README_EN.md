@@ -4,7 +4,7 @@
 
 ## About the Project
 
-This project was initially inspired by The Replit Team and Agent V2, as well as the implementation by [stefanskiasan/mcp-server-semgrep](https://github.com/stefanskiasan/mcp-server-semgrep), but has evolved with significant architectural improvements, including a custom implementation of the MCP protocol for enhanced stability and easier maintenance.
+This project was initially inspired by The Replit Team and Agent V2, as well as the implementation by [stefanskiasan/semgrep-mcp-server](https://github.com/stefanskiasan/semgrep-mcp-server), but has evolved with significant architectural improvements, including a custom implementation of the MCP protocol for enhanced stability and easier maintenance.
 
 MCP Server Semgrep is a Model Context Protocol (MCP) compliant server that integrates the powerful Semgrep static analysis tool with AI assistants like Anthropic Claude. It enables advanced code analysis, security vulnerability detection, and code quality improvements directly through a conversational interface.
 
@@ -35,9 +35,9 @@ MCP Server Semgrep is a Model Context Protocol (MCP) compliant server that integ
 
 ## Key Features
 
-- Custom MCP implementation simplifying the codebase
+- MCP protocol implementation tailored for Semgrep use cases
 - Reduced external dependencies for better long-term maintenance
-- Streamlined communication protocol focused on Semgrep use cases
+- Efficient communication protocol focused on Semgrep requirements
 - Reorganized project structure and modularization
 - Enhanced error handling and security
 - Interface and documentation in both English and Polish
@@ -198,8 +198,8 @@ pnpm test
 src/
   ├── config.ts         # Server configuration
   ├── index.ts          # Entry point
-  ├── sdk.ts            # MCP protocol bridge
-  ├── mcp/              # Custom MCP implementation
+  ├── sdk.ts            # MCP protocol interface
+  ├── mcp/              # MCP protocol implementation
   ├── handlers/         # Request handlers
   ├── utils/            # Utility functions
   └── types/            # TypeScript type definitions

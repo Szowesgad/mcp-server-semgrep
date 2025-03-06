@@ -5,3 +5,5 @@ export * from './createRule.js';
 export * from './filterResults.js';
 export * from './exportResults.js';
 export * from './compareResults.js';
+export * from './listResources.js';
+export * from './listPrompts.js';

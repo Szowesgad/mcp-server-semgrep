@@ -16,7 +16,9 @@ import {
   handleCreateRule,
   handleFilterResults,
   handleExportResults,
-  handleCompareResults
+  handleCompareResults,
+  handleListResources,
+  handleListPrompts
 } from './handlers/index.js';
 import { SERVER_CONFIG } from './config.js';
 

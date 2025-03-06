@@ -306,6 +306,8 @@ export class Server {
       let handler: Function | undefined;
       let handlerSchema: JsonSchema | undefined;
 
+      console.error(`[MCP DEBUG] Received message: ${JSON.stringify(request)}`);
+
       switch (request.method) {
         case 'initialize':
           await this.sendResult(id, {
@@ -332,9 +334,26 @@ export class Server {
           handler = this.requestHandlers.get(CallToolRequestSchema);
           handlerSchema = CallToolRequestSchema;
           break;
+          
+        case 'resources/list':
+          // Handle resources/list request directly
+          await this.sendResult(id, {
+            resources: [],
+            count: 0
+          });
+          return;
+          
+        case 'prompts/list':
+          // Handle prompts/list request directly
+          await this.sendResult(id, {
+            prompts: [],
+            count: 0
+          });
+          return;
 
         default:
-          await this.sendError(id, ErrorCode.MethodNotFound, `Method ${request.method} not found`);
+          console.error(`[MCP DEBUG] Unhandled message type: ${request.method}`);
+          await this.sendError(id, ErrorCode.MethodNotFound, `Method ${request.method} not implemented`);
           return;
       }
 

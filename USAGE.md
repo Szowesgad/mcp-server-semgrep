@@ -4,7 +4,20 @@ This guide describes how to use the Semgrep MCP Server in your development workf
 
 ## Installation
 
-First, make sure you have Node.js (v18+) installed, as well as Python and pip3 (required for Semgrep).
+First, make sure you have Node.js (v18+) installed. You'll also need Semgrep, which can be installed separately:
+
+```bash
+# macOS:
+brew install semgrep
+
+# Linux:
+python3 -m pip install semgrep
+
+# Others:
+# See https://semgrep.dev/docs/getting-started/
+```
+
+Then install the MCP Server:
 
 ```bash
 # Install from npm (once published)
@@ -13,6 +26,8 @@ npm install -g mcp-server-semgrep
 # Or directly from GitHub
 npm install -g git+https://github.com/Szowesgad/mcp-server-semgrep.git
 ```
+
+The server will automatically detect your Semgrep installation when it starts.
 
 ## Running the Server
 
