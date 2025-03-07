@@ -4,9 +4,9 @@
 
 ## About the Project
 
-This project was initially inspired by The Replit Team and Agent V2, as well as the implementation by [stefanskiasan/semgrep-mcp-server](https://github.com/stefanskiasan/semgrep-mcp-server), but has evolved with significant architectural improvements, including a custom implementation of the MCP protocol for enhanced stability and easier maintenance.
+This project was initially inspired by robustness of [Semgrep)(https://semgrep.dev), [The Replit Team](https://github.com/replit) and their [Agent V2](https://replit.com), and the implementation by [stefanskiasan/semgrep-mcp-server](https://github.com/stefanskiasan/semgrep-mcp-server), but has evolved with significant architectural changes for enhanced and easier installation and maintenance.
 
-MCP Server Semgrep is a Model Context Protocol (MCP) compliant server that integrates the powerful Semgrep static analysis tool with AI assistants like Anthropic Claude. It enables advanced code analysis, security vulnerability detection, and code quality improvements directly through a conversational interface.
+MCP Server Semgrep is a [Model Context Protocol](https://modelcontextprotocol.io) compliant server that integrates the powerful Semgrep static analysis tool with AI assistants like Anthropic Claude. It enables advanced code analysis, security vulnerability detection, and code quality improvements directly through a conversational interface.
 
 ## Benefits of Integration
 
