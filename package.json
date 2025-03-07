@@ -10,7 +10,8 @@
     "dev": "ts-node --esm src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint 'src/**/*.ts'"
+    "lint": "eslint 'src/**/*.ts'",
+    "postinstall": "node scripts/check-semgrep.js"
   },
   "keywords": [
     "mcp",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@modelcontextprotocol/sdk": "^1.6.1",
     "@types/node": "^20.0.0",
+    "@types/which": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
     "@typescript-eslint/parser": "^8.25.0",
     "eslint": "^9.21.0",
@@ -33,7 +35,11 @@
   },
   "dependencies": {
     "axios": "^1.0.0",
+    "which": "^3.0.1",
     "zod": "^3.24.2"
+  },
+  "optionalDependencies": {
+    "semgrep": "^1.110.0"
   },
   "engines": {
     "node": ">=18.0.0"

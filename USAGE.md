@@ -4,20 +4,9 @@ This guide describes how to use the Semgrep MCP Server in your development workf
 
 ## Installation
 
-First, make sure you have Node.js (v18+) installed. You'll also need Semgrep, which can be installed separately:
+First, make sure you have Node.js (v18+) installed. The server offers multiple ways to get Semgrep:
 
-```bash
-# macOS:
-brew install semgrep
-
-# Linux:
-python3 -m pip install semgrep
-
-# Others:
-# See https://semgrep.dev/docs/getting-started/
-```
-
-Then install the MCP Server:
+### Install the MCP Server:
 
 ```bash
 # Install from npm (once published)
@@ -27,7 +16,30 @@ npm install -g mcp-server-semgrep
 npm install -g git+https://github.com/Szowesgad/mcp-server-semgrep.git
 ```
 
-The server will automatically detect your Semgrep installation when it starts.
+### Semgrep Installation Options:
+
+The server includes Semgrep as an optional dependency and will automatically detect it during installation. If Semgrep is not found, you'll be guided through installation options:
+
+```bash
+# NPM (recommended):
+npm install -g semgrep
+
+# macOS:
+brew install semgrep
+
+# Linux:
+python3 -m pip install semgrep
+# or
+sudo apt-get install semgrep
+
+# Windows:
+pip install semgrep
+
+# Others:
+# See https://semgrep.dev/docs/getting-started/
+```
+
+The server will automatically detect your Semgrep installation regardless of how it was installed, and will provide helpful guidance if it's missing.
 
 ## Running the Server
 
@@ -82,24 +94,36 @@ The integration enhances developer experience through:
 
 ```json
 {
-  "name": "scan_directory",
-  "arguments": {
-    "path": "/absolute/path/to/code",
-    "config": "p/security"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "scan_directory",
+    "arguments": {
+      "path": "/absolute/path/to/code",
+      "config": "p/security"
+    }
+  },
+  "id": 1
 }
 ```
 
 **Practical Application**: Run this scan before code review or deployment to catch security issues early in the development cycle.
 
+**Note**: The server uses `--no-git-ignore` and `--skip-unknown-extensions` flags to ensure all relevant files are scanned, regardless of git status.
+
 ### Listing Available Rules and Supported Languages
 
 ```json
 {
-  "name": "list_rules",
-  "arguments": {
-    "language": "python"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "list_rules",
+    "arguments": {
+      "language": "python"
+    }
+  },
+  "id": 2
 }
 ```
 
@@ -109,14 +133,19 @@ The integration enhances developer experience through:
 
 ```json
 {
-  "name": "create_rule",
-  "arguments": {
-    "output_path": "/absolute/path/to/my-rule.yaml",
-    "pattern": "eval(...)",
-    "language": "javascript",
-    "message": "Avoid using eval() as it can lead to code injection vulnerabilities",
-    "severity": "ERROR"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "create_rule",
+    "arguments": {
+      "output_path": "/absolute/path/to/my-rule.yaml",
+      "pattern": "eval(...)",
+      "language": "javascript",
+      "message": "Avoid using eval() as it can lead to code injection vulnerabilities",
+      "severity": "ERROR"
+    }
+  },
+  "id": 3
 }
 ```
 
@@ -126,10 +155,15 @@ The integration enhances developer experience through:
 
 ```json
 {
-  "name": "analyze_results",
-  "arguments": {
-    "results_file": "/absolute/path/to/results.json"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "analyze_results",
+    "arguments": {
+      "results_file": "/absolute/path/to/results.json"
+    }
+  },
+  "id": 4
 }
 ```
 
@@ -275,6 +309,17 @@ The Semgrep MCP Server can be integrated with any MCP-compatible client, includi
 - Large language models with MCP support (like Claude)
 - IDE extensions that implement MCP
 - Custom tooling that uses the MCP protocol
+
+### Standard MCP Methods Support
+
+This server implements standard MCP methods:
+
+```json
+{"jsonrpc":"2.0","method":"initialize","params":{"protocolVersion":"0.1.0"},"id":1}
+{"jsonrpc":"2.0","method":"tools/list","id":2}
+{"jsonrpc":"2.0","method":"resources/list","id":3}
+{"jsonrpc":"2.0","method":"prompts/list","id":4}
+```
 
 ### Claude Integration
 

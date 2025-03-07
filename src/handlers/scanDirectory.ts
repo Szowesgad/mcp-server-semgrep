@@ -62,7 +62,7 @@ export async function handleScanDirectory(params: ScanDirectoryParams): Promise<
   const outputFormat = params.output_format?.toLowerCase() as ResultFormat || ResultFormat.JSON;
   
   // Build command arguments
-  const args: string[] = ['--json', targetPath];
+  const args: string[] = ['--json', targetPath, '--no-git-ignore', '--skip-unknown-extensions'];
   
   // Add configuration
   args.push('--config', config);
@@ -84,12 +84,22 @@ export async function handleScanDirectory(params: ScanDirectoryParams): Promise<
     // Parse results as JSON
     let results: object;
     try {
+      // Attempt to parse JSON output
       results = JSON.parse(stdout);
+      console.log(`Successfully parsed JSON output with ${JSON.stringify(results).length} characters`);
     } catch (error) {
-      throw new McpError(
-        ErrorCode.InternalError,
-        `Error parsing Semgrep output: ${error}`
-      );
+      console.error(`Error parsing Semgrep output: ${error}`);
+      console.error(`Raw stdout: ${stdout.substring(0, 200)}...`);
+      
+      // Return empty results rather than throwing an error
+      results = {
+        version: "1.110.0",
+        results: [],
+        errors: [{ message: `Error parsing semgrep output: ${error}` }],
+        paths: { scanned: [] },
+        interfile_languages_used: [],
+        skipped_rules: []
+      };
     }
 
     // Return results or info about output file
@@ -104,14 +114,20 @@ export async function handleScanDirectory(params: ScanDirectoryParams): Promise<
       return results;
     }
   } catch (error: any) {
+    console.error(`Error in scanDirectory handler: ${error.message}`);
+    
     if (error instanceof McpError) {
       throw error;
     }
     
-    // Handle semgrep execution errors
-    throw new McpError(
-      ErrorCode.InternalError,
-      `Error executing Semgrep: ${error.message}`
-    );
+    // Return empty results instead of throwing an error
+    return {
+      version: "1.110.0",
+      results: [],
+      errors: [{ message: `Error executing Semgrep: ${error.message}` }],
+      paths: { scanned: [] },
+      interfile_languages_used: [],
+      skipped_rules: []
+    };
   }
 }

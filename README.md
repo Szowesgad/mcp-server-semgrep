@@ -43,6 +43,9 @@ MCP Server Semgrep is a Model Context Protocol (MCP) compliant server that integ
 - Interface and documentation in both English and Polish
 - Comprehensive unit tests
 - Extensive documentation
+- Cross-platform compatibility (Windows, macOS, Linux)
+- Flexible Semgrep installation detection
+- Compatibility with MCP resources/list and prompts/list methods
 
 ## Functions
 
@@ -70,8 +73,7 @@ Semgrep MCP Server provides the following tools:
 
 ### Prerequisites
 
-- Node.js v16+
-- Semgrep CLI installed globally or locally
+- Node.js v18+
 - TypeScript (for development)
 
 ### Setup
@@ -90,6 +92,36 @@ yarn install
 # or
 pnpm install
 ```
+
+> **Note**: The installation process will automatically check for Semgrep availability. If Semgrep is not found, you'll receive instructions on how to install it.
+
+#### Semgrep Installation Options
+
+Semgrep can be installed in several ways:
+
+- **NPM (recommended)**: It's included as an optional dependency
+  ```bash
+  npm install -g semgrep
+  # or
+  pnpm add -g semgrep
+  ```
+
+- **Python pip**:
+  ```bash
+  pip install semgrep
+  ```
+
+- **Homebrew** (macOS):
+  ```bash
+  brew install semgrep
+  ```
+
+- **Linux**:
+  ```bash
+  sudo apt-get install semgrep
+  # or
+  curl -sSL https://install.semgrep.dev | sh
+  ```
 
 3. Build the project:
 ```bash
@@ -195,14 +227,17 @@ pnpm test
 ### Project Structure
 
 ```
-src/
-  ├── config.ts         # Server configuration
-  ├── index.ts          # Entry point
-  ├── sdk.ts            # MCP protocol interface
-  ├── mcp/              # MCP protocol implementation
-  ├── handlers/         # Request handlers
-  ├── utils/            # Utility functions
-  └── types/            # TypeScript type definitions
+├── src/
+│   ├── config.ts         # Server configuration
+│   ├── index.ts          # Entry point
+│   ├── sdk.ts            # MCP protocol interface
+│   ├── handlers/         # Request handlers for MCP tools
+│   └── utils/            # Utility functions and Semgrep integration
+├── scripts/
+│   └── check-semgrep.js  # Semgrep detection and installation helper
+├── build/                # Compiled JavaScript (after build)
+├── test_scan/            # Example files for testing scans
+└── tests/                # Unit tests
 ```
 
 ## Further Documentation
