@@ -96,7 +96,7 @@ pnpm install
 
 Semgrep can be installed in several ways:
 
-- **NPM (recommended)**: It's included as an optional dependency
+- **PNPM (recommended)**: It's included as an optional dependency
   ```bash
   pnpm add -g semgrep
   ```
@@ -128,7 +128,7 @@ pnpm run build
 To integrate MCP Server Semgrep with Claude Desktop:
 
 1. Install Claude Desktop
-2. Update the Claude Desktop configuration file (`claude_desktop_config.json`) and put this, somewhere between your numerous other servers.:
+2. Update the Claude Desktop configuration file (`claude_desktop_config.json`) and put this, somewhere around your numerous other servers. Add the SEMGREP_APP_TOKEN (recommended) :
 
 ```json
 {
@@ -136,10 +136,10 @@ To integrate MCP Server Semgrep with Claude Desktop:
     "semgrep": {
       "command": "node",
       "args": [
-        "/your_patch/mcp-server-semgrep/build/index.js"
+        "/your_path/mcp-server-semgrep/build/index.js"
       ],
         "env": {
-          "SEMGREP_APP_TOKEN": "your_sepgrep_pro_app_token"
+          "SEMGREP_APP_TOKEN": "your_sepgrep_app_token"
       }
     }
   }
@@ -212,10 +212,6 @@ rules:
 
 ```bash
 pnpm test
-# or
-npm test
-# or
-yarn test
 ```
 
 ### Project Structure
