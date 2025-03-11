@@ -9,3 +9,5 @@ pnpm-lock.yaml
 semgrep.json
 CLAUDE.md
 test_scan/
+semgrep_rules/
+/semgrep-rules
