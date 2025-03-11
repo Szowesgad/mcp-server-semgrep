@@ -49,6 +49,12 @@ export class Server {
           return;
         }
         
+        // Handle notifications/initialized (sent by Claude Desktop after initialization)
+        if (message.method === 'notifications/initialized') {
+          console.error(`[MCP DEBUG] Received initialized notification`);
+          return; // No response needed for notifications
+        }
+        
         // Handle notifications/cancelled
         if (message.method === 'notifications/cancelled') {
           console.error(`[MCP DEBUG] Received cancellation: ${JSON.stringify(message)}`);
