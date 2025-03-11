@@ -1,4 +1,5 @@
 # MCP Server Semgrep
+[![smithery badge](https://smithery.ai/badge/@Szowesgad/mcp-server-semgrep)](https://smithery.ai/server/@Szowesgad/mcp-server-semgrep)
 
 ![MCP Server Semgrep Logo](./logo.svg)
 
