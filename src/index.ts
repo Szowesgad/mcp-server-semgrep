@@ -313,8 +313,12 @@ class SemgrepServer {
       : config;
 
     try {
+      // Check for SEMGREP_APP_TOKEN in environment
+      const authFlag = process.env.SEMGREP_APP_TOKEN ? 
+        `--auth-token=${process.env.SEMGREP_APP_TOKEN}` : '';
+      
       const { stdout, stderr } = await execAsync(
-        `semgrep scan --json --config ${configParam} ${scanPath}`
+        `semgrep scan --json ${authFlag} --config ${configParam} ${scanPath}`
       );
 
       return {
@@ -341,11 +345,26 @@ class SemgrepServer {
   private async handleListRules(args: any) {
     const languageFilter = args.language ? `--lang ${args.language}` : '';
     try {
-      // Get the registry rules
-      const { stdout } = await execAsync('semgrep login --help');
+      // Check for SEMGREP_APP_TOKEN in environment
+      const authFlag = process.env.SEMGREP_APP_TOKEN ? 
+        `--auth-token=${process.env.SEMGREP_APP_TOKEN}` : '';
       
-      // Format the output
-      const formattedOutput = `Available Semgrep Registry Rules:
+      // Try to get rules from registry if token is available
+      let rulesList = '';
+      if (authFlag) {
+        try {
+          const { stdout } = await execAsync(`semgrep ci ${authFlag} --dry-run --no-suppress-errors --list-rules`);
+          if (stdout) {
+            rulesList = stdout;
+          }
+        } catch (e) {
+          console.error('Could not retrieve rules from Semgrep registry', e);
+        }
+      }
+      
+      // Fallback or append standard rules if registry rules retrieval failed
+      if (!rulesList) {
+        rulesList = `Available Semgrep Registry Rules:
 
 Standard rule collections:
 - p/ci: Basic CI rules
@@ -355,12 +374,13 @@ Standard rule collections:
 
 Use these rule collections with --config, e.g.:
 semgrep scan --config=p/ci`;
+      }
 
       return {
         content: [
           {
             type: 'text',
-            text: formattedOutput
+            text: rulesList
           }
         ]
       };
