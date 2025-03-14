@@ -10,7 +10,7 @@ First, make sure you have Node.js (v18+) installed. The server offers multiple w
 
 ```bash
 # Install from npm (once published)
-npm install -g mcp-server-semgrep
+npm install -g semgrep-server
 
 # Or directly from GitHub
 npm install -g git+https://github.com/Szowesgad/mcp-server-semgrep.git
@@ -21,7 +21,10 @@ npm install -g git+https://github.com/Szowesgad/mcp-server-semgrep.git
 The server includes Semgrep as an optional dependency and will automatically detect it during installation. If Semgrep is not found, you'll be guided through installation options:
 
 ```bash
-# NPM (recommended):
+# PNPM (recommended):
+pnpm add -g semgrep
+
+# NPM:
 npm install -g semgrep
 
 # macOS:
@@ -92,6 +95,14 @@ The integration enhances developer experience through:
 
 ### Scanning a Directory
 
+In Claude Desktop, you might ask:
+
+```
+Could you scan my project directory at /path/to/code for security vulnerabilities?
+```
+
+Behind the scenes, the MCP server handles requests like:
+
 ```json
 {
   "jsonrpc": "2.0",
@@ -99,7 +110,7 @@ The integration enhances developer experience through:
   "params": {
     "name": "scan_directory",
     "arguments": {
-      "path": "/absolute/path/to/code",
+      "path": "/path/to/code",
       "config": "p/security"
     }
   },
@@ -109,9 +120,15 @@ The integration enhances developer experience through:
 
 **Practical Application**: Run this scan before code review or deployment to catch security issues early in the development cycle.
 
-**Note**: The server uses `--no-git-ignore` and `--skip-unknown-extensions` flags to ensure all relevant files are scanned, regardless of git status.
-
 ### Listing Available Rules and Supported Languages
+
+In Claude Desktop, you might ask:
+
+```
+What Semgrep rules are available for analyzing Python code?
+```
+
+Behind the scenes:
 
 ```json
 {
@@ -131,6 +148,14 @@ The integration enhances developer experience through:
 
 ### Creating a Custom Rule
 
+In Claude Desktop, you might say:
+
+```
+Could you create a Semgrep rule to detect uses of eval() in JavaScript files?
+```
+
+MCP request:
+
 ```json
 {
   "jsonrpc": "2.0",
@@ -138,11 +163,12 @@ The integration enhances developer experience through:
   "params": {
     "name": "create_rule",
     "arguments": {
-      "output_path": "/absolute/path/to/my-rule.yaml",
+      "output_path": "/path/to/my-rule.yaml",
       "pattern": "eval(...)",
       "language": "javascript",
       "message": "Avoid using eval() as it can lead to code injection vulnerabilities",
-      "severity": "ERROR"
+      "severity": "ERROR",
+      "id": "no-eval"
     }
   },
   "id": 3
@@ -153,6 +179,12 @@ The integration enhances developer experience through:
 
 ### Analyzing Scan Results
 
+```
+Could you analyze the Semgrep scan results I have in /path/to/results.json?
+```
+
+MCP request:
+
 ```json
 {
   "jsonrpc": "2.0",
@@ -160,7 +192,7 @@ The integration enhances developer experience through:
   "params": {
     "name": "analyze_results",
     "arguments": {
-      "results_file": "/absolute/path/to/results.json"
+      "results_file": "/path/to/results.json"
     }
   },
   "id": 4
@@ -171,14 +203,25 @@ The integration enhances developer experience through:
 
 ### Filtering Results
 
+```
+Show me only the high severity JavaScript issues from the scan results
+```
+
+MCP request:
+
 ```json
 {
-  "name": "filter_results",
-  "arguments": {
-    "results_file": "/absolute/path/to/results.json",
-    "severity": "ERROR",
-    "path_pattern": "\\.js$"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "filter_results",
+    "arguments": {
+      "results_file": "/path/to/results.json",
+      "severity": "ERROR",
+      "path_pattern": "\\.js$"
+    }
+  },
+  "id": 5
 }
 ```
 
@@ -186,14 +229,25 @@ The integration enhances developer experience through:
 
 ### Exporting Results
 
+```
+Export the scan results to a SARIF file for our CI/CD pipeline
+```
+
+MCP request:
+
 ```json
 {
-  "name": "export_results",
-  "arguments": {
-    "results_file": "/absolute/path/to/results.json",
-    "output_file": "/absolute/path/to/report.sarif",
-    "format": "sarif"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "export_results",
+    "arguments": {
+      "results_file": "/path/to/results.json",
+      "output_file": "/path/to/report.sarif",
+      "format": "sarif"
+    }
+  },
+  "id": 6
 }
 ```
 
@@ -201,13 +255,24 @@ The integration enhances developer experience through:
 
 ### Comparing Results
 
+```
+Compare the scan results from before and after our security fixes
+```
+
+MCP request:
+
 ```json
 {
-  "name": "compare_results",
-  "arguments": {
-    "old_results": "/absolute/path/to/old-results.json",
-    "new_results": "/absolute/path/to/new-results.json"
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "compare_results",
+    "arguments": {
+      "old_results": "/path/to/old-results.json",
+      "new_results": "/path/to/new-results.json"
+    }
+  },
+  "id": 7
 }
 ```
 
@@ -220,64 +285,40 @@ The integration enhances developer experience through:
 **Problem**: Team members use inconsistent z-index values across CSS files, causing layer conflicts.
 
 **Solution**:
-1. Create a custom rule to detect z-index values:
-```json
-{
-  "name": "create_rule",
-  "arguments": {
-    "output_path": "/path/to/z-index-rule.yaml",
-    "pattern": "z-index: $Z",
-    "language": "css",
-    "message": "Z-index $Z may not comply with our layer system. Use our defined constants instead.",
-    "severity": "WARNING"
-  }
-}
-```
+1. Ask Claude to create a custom rule for detecting z-index values:
+   ```
+   Create a Semgrep rule to identify all z-index values in our CSS files
+   ```
 
-2. Scan the project to identify all z-index usages:
-```json
-{
-  "name": "scan_directory",
-  "arguments": {
-    "path": "/path/to/project",
-    "config": "/path/to/z-index-rule.yaml"
-  }
-}
-```
+2. Have Claude scan the project to identify all z-index usages
+   ```
+   Scan our project directory for z-index values using the rule you just created
+   ```
 
-3. Ask the AI to analyze patterns and suggest a systematic approach to z-index values.
+3. Ask Claude to analyze patterns and suggest a systematic approach:
+   ```
+   Based on these results, could you suggest a z-index layering system for our project?
+   ```
 
 ### Scenario 2: Preventing "Magic Numbers"
 
 **Problem**: Developers use hard-coded numbers throughout the code instead of named constants.
 
 **Solution**:
-1. Create a rule to detect numeric literals:
-```json
-{
-  "name": "create_rule",
-  "arguments": {
-    "output_path": "/path/to/magic-numbers.yaml",
-    "pattern": "$X = $NUM",
-    "language": "javascript",
-    "message": "Consider replacing numeric literal with a named constant",
-    "severity": "INFO"
-  }
-}
-```
+1. Have Claude create a rule to detect numeric literals:
+   ```
+   Create a Semgrep rule to find magic numbers in our JavaScript code
+   ```
 
-2. Scan the codebase for these patterns:
-```json
-{
-  "name": "scan_directory",
-  "arguments": {
-    "path": "/path/to/project",
-    "config": "/path/to/magic-numbers.yaml"
-  }
-}
-```
+2. Ask Claude to scan the codebase for these patterns:
+   ```
+   Use the magic numbers rule to scan our project
+   ```
 
-3. Have the AI suggest appropriate constant names and refactoring approaches.
+3. Request suggestions for improvements:
+   ```
+   For each of these instances, can you suggest appropriate constant names and a refactoring approach?
+   ```
 
 ## Integration with Development Workflows
 
@@ -302,39 +343,48 @@ Use the explanatory capabilities to:
 - Share best practices in context
 - Build a security-aware development culture
 
-## Integration with MCP Clients
+## Integration with Claude Desktop
 
-The Semgrep MCP Server can be integrated with any MCP-compatible client, including:
+When using with Claude Desktop:
 
-- Large language models with MCP support (like Claude)
-- IDE extensions that implement MCP
-- Custom tooling that uses the MCP protocol
-
-### Standard MCP Methods Support
-
-This server implements standard MCP methods:
-
+1. Add the server to your Claude Desktop configuration:
 ```json
-{"jsonrpc":"2.0","method":"initialize","params":{"protocolVersion":"0.1.0"},"id":1}
-{"jsonrpc":"2.0","method":"tools/list","id":2}
-{"jsonrpc":"2.0","method":"resources/list","id":3}
-{"jsonrpc":"2.0","method":"prompts/list","id":4}
+{
+  "mcpServers": {
+    "semgrep": {
+      "command": "node",
+      "args": [
+        "/path/to/mcp-server-semgrep/build/index.js"
+      ],
+      "env": {
+        "SEMGREP_APP_TOKEN": "your_token_here"
+      }
+    }
+  }
+}
 ```
 
-### Claude Integration
-
-When using with Claude, you can:
-1. Ask for scans with natural language
-2. Request explanations of detected issues
-3. Get help creating custom rules for your specific needs
-4. Receive refactoring suggestions for problematic code
-
-For example:
+2. Ask for scans with natural language:
 ```
-Claude, can you scan my project for security issues, focusing on input validation and sanitization?
+Can you scan my project for security issues, focusing on input validation and sanitization?
 ```
 
-For more information on the MCP protocol, see the [Model Context Protocol documentation](https://github.com/llm-mcp/model-context-protocol).
+3. Request explanations of detected issues:
+```
+Why is this pattern considered a security risk, and how should I fix it?
+```
+
+4. Get help creating custom rules for your specific needs:
+```
+Help me create a rule to detect improper error handling in our Node.js application
+```
+
+5. Receive refactoring suggestions for problematic code:
+```
+How could I refactor this code to eliminate the SQL injection risk?
+```
+
+For more information on the MCP protocol, see the [Model Context Protocol documentation](https://modelcontextprotocol.io).
 
 ## Advanced Usage
 
