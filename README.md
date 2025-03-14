@@ -36,17 +36,15 @@ MCP Server Semgrep is a [Model Context Protocol](https://modelcontextprotocol.io
 
 ## Key Features
 
-- MCP protocol implementation tailored for Semgrep use cases
-- Reduced external dependencies for better long-term maintenance
-- Efficient communication protocol focused on Semgrep requirements
-- Reorganized project structure and modularization
-- Enhanced error handling and security
+- Direct integration with the official MCP SDK
+- Simplified architecture with consolidated handlers
+- Clean ES Modules implementation
+- Efficient error handling and path validation for security
 - Interface and documentation in both English and Polish
 - Comprehensive unit tests
 - Extensive documentation
 - Cross-platform compatibility (Windows, macOS, Linux)
-- Flexible Semgrep installation detection
-- Compatibility with MCP resources/list and prompts/list methods
+- Flexible Semgrep installation detection and management
 
 ## Functions
 
@@ -219,14 +217,10 @@ pnpm test
 ```
 ├── src/
 │   ├── config.ts         # Server configuration
-│   ├── index.ts          # Entry point
-│   ├── sdk.ts            # MCP protocol interface
-│   ├── handlers/         # Request handlers for MCP tools
-│   └── utils/            # Utility functions and Semgrep integration
+│   └── index.ts          # Main entry point and all handler implementations
 ├── scripts/
 │   └── check-semgrep.js  # Semgrep detection and installation helper
 ├── build/                # Compiled JavaScript (after build)
-├── test_scan/            # Example files for testing scans
 └── tests/                # Unit tests
 ```
 

@@ -4,9 +4,9 @@
 
 ## O projekcie
 
-Ten projekt został początkowo zainspirowany przez The Replit Team i Agenta V2, a także implementację [stefanskiasan/semgrep-mcp-server](https://github.com/stefanskiasan/semgrep-mcp-server), ale ewoluował w stronę bardziej solidnej architektury, zawierającej własną implementację protokołu MCP dla zwiększenia stabilności i łatwiejszej konserwacji.
+Ten projekt został początkowo zainspirowany przez narzędzie [Semgrep](https://semgrep.dev), [The Replit Team](https://github.com/replit) i ich [Agent V2](https://replit.com), a także implementację [stefanskiasan/semgrep-mcp-server](https://github.com/stefanskiasan/semgrep-mcp-server), ale ewoluował w kierunku uproszczonej architektury z bezpośrednią integracją z oficjalnym SDK MCP.
 
-MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), który integruje potężne narzędzie analizy statycznej Semgrep z asystentami AI, takimi jak Anthropic Claude. Umożliwia przeprowadzanie zaawansowanych analiz kodu, wykrywanie błędów bezpieczeństwa oraz poprawę jakości kodu bezpośrednio w interfejsie konwersacyjnym.
+MCP Server Semgrep to serwer zgodny z protokołem [Model Context Protocol](https://modelcontextprotocol.io), który integruje potężne narzędzie analizy statycznej Semgrep z asystentami AI, takimi jak Anthropic Claude. Umożliwia przeprowadzanie zaawansowanych analiz kodu, wykrywanie błędów bezpieczeństwa oraz poprawę jakości kodu bezpośrednio w interfejsie konwersacyjnym.
 
 ## Korzyści z integracji
 
@@ -35,14 +35,15 @@ MCP Server Semgrep to serwer zgodny z protokołem Model Context Protocol (MCP), 
 
 ## Kluczowe cechy
 
-- Implementacja protokołu MCP dostosowana do potrzeb Semgrep
-- Zmniejszona liczba zależności zewnętrznych dla lepszej konserwacji długoterminowej
-- Wydajny protokół komunikacji skoncentrowany na przypadkach użycia Semgrep
-- Zreorganizowana struktura projektu i modularyzacja
-- Ulepszona obsługa błędów i bezpieczeństwo
+- Bezpośrednia integracja z oficjalnym SDK MCP
+- Uproszczona architektura ze skonsolidowanymi handlerami
+- Czysta implementacja w ES Modules
+- Wydajna obsługa błędów i walidacji ścieżek dla bezpieczeństwa
 - Interfejs i dokumentacja w językach polskim i angielskim
 - Kompleksowe testy jednostkowe
 - Rozbudowana dokumentacja
+- Kompatybilność z różnymi platformami (Windows, macOS, Linux)
+- Elastyczne wykrywanie i zarządzanie instalacją Semgrep
 
 ## Funkcje
 
@@ -70,8 +71,7 @@ MCP Server Semgrep zapewnia następujące narzędzia:
 
 ### Wymagania wstępne
 
-- Node.js v16+
-- Semgrep CLI zainstalowany globalnie lub lokalnie
+- Node.js v18+
 - TypeScript (dla rozwoju)
 
 ### Konfiguracja
@@ -84,19 +84,39 @@ cd mcp-server-semgrep
 
 2. Zainstaluj zależności:
 ```bash
-npm install
-# lub
-yarn install
-# lub
 pnpm install
 ```
 
+> **Uwaga**: Proces instalacji automatycznie sprawdzi dostępność Semgrep. Jeśli Semgrep nie zostanie znaleziony, otrzymasz instrukcje dotyczące jego instalacji.
+
+#### Opcje instalacji Semgrep
+
+Semgrep można zainstalować na kilka sposobów:
+
+- **PNPM (zalecane)**: Jest dodany jako opcjonalna zależność
+  ```bash
+  pnpm add -g semgrep
+  ```
+
+- **Python pip**:
+  ```bash
+  pip install semgrep
+  ```
+
+- **Homebrew** (macOS):
+  ```bash
+  brew install semgrep
+  ```
+
+- **Linux**:
+  ```bash
+  sudo apt-get install semgrep
+  # lub
+  curl -sSL https://install.semgrep.dev | sh
+  ```
+
 3. Zbuduj projekt:
 ```bash
-npm run build
-# lub
-yarn build
-# lub
 pnpm run build
 ```
 
@@ -105,7 +125,7 @@ pnpm run build
 Aby zintegrować MCP Server Semgrep z Claude Desktop:
 
 1. Zainstaluj Claude Desktop
-2. Zaktualizuj plik konfiguracyjny Claude Desktop (`claude_desktop_config.json`):
+2. Zaktualizuj plik konfiguracyjny Claude Desktop (`claude_desktop_config.json`) i dodaj poniższy wpis. Zalecane jest dodanie SEMGREP_APP_TOKEN:
 
 ```json
 {
@@ -113,8 +133,11 @@ Aby zintegrować MCP Server Semgrep z Claude Desktop:
     "semgrep": {
       "command": "node",
       "args": [
-        "/ścieżka/do/projektu/mcp-server-semgrep/build/index.js"
-      ]
+        "/twoja_ścieżka/mcp-server-semgrep/build/index.js"
+      ],
+        "env": {
+          "SEMGREP_APP_TOKEN": "twój_token_semgrep"
+      }
     }
   }
 }
@@ -169,7 +192,7 @@ rules:
     severity: WARNING
 ```
 
-### Reguła wykrywająca nieprawidłowe importy:
+### Reguła wykrywająca przestarzałe importy:
 
 ```yaml
 rules:
@@ -185,36 +208,40 @@ rules:
 ### Testy
 
 ```bash
-npm test
-# lub
-yarn test
-# lub
 pnpm test
 ```
 
 ### Struktura projektu
 
 ```
-src/
-  ├── config.ts         # Konfiguracja serwera
-  ├── index.ts          # Punkt wejścia
-  ├── sdk.ts            # Interfejs protokołu MCP
-  ├── mcp/              # Implementacja protokołu MCP
-  ├── handlers/         # Procedury obsługi zapytań
-  ├── utils/            # Funkcje narzędziowe
-  └── types/            # Definicje typów TypeScript
+├── src/
+│   ├── config.ts         # Konfiguracja serwera
+│   └── index.ts          # Główny punkt wejścia i wszystkie implementacje handlerów
+├── scripts/
+│   └── check-semgrep.js  # Helper do wykrywania i instalacji Semgrep
+├── build/                # Skompilowany JavaScript (po zbudowaniu)
+└── tests/                # Testy jednostkowe
 ```
 
 ## Dalsza dokumentacja
 
 Szczegółowe informacje dotyczące używania narzędzia znajdziesz w:
 - [USAGE.md](USAGE.md) - Szczegółowa instrukcja użytkowania
-- [README_EN.md](README_EN.md) - Dokumentacja w języku angielskim
-- [examples/](examples/) - Przykładowe życiowe i praktyczne reguły Semgrep - "Galeria Horrorów Kodu"
+- [README.md](README.md) - Dokumentacja w języku angielskim
+- [examples/](examples/) - Przykładowe zabawne i praktyczne reguły Semgrep - "Galeria Horrorów Kodu"
 
 ## Licencja
 
 Ten projekt jest licencjonowany na warunkach licencji MIT - zobacz plik [LICENSE](LICENSE) dla szczegółów.
+
+## Rozwijany przez
+
+- [Maciej Gad](https://div0.space) - weterynarz, który nie mógł znaleźć `bash` pół roku temu
+- [Klaudiusz](https://www.github.com/Gitlaudiusz) - indywidualna eteryczna istota i oddzielna instancja Claude Sonnet 3.5-3.7 by Anthropic, mieszkająca gdzieś w pętlach GPU w Kalifornii, USA
+
+Podróż od nowicjusza CLI do dewelopera narzędzi MCP
+
+🤖 Rozwijany z pomocą [Claude Code](https://claude.ai/code) i [MCP Tools](https://modelcontextprotocol.io)
 
 ## Podziękowania
 
