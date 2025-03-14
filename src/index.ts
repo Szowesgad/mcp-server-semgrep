@@ -1,33 +1,33 @@
 #!/usr/bin/env node
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
-  Server,
-  StdioServerTransport,
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
-  McpError
-} from './sdk.js';
+  McpError,
+} from '@modelcontextprotocol/sdk/types.js';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-import { ensureSemgrepAvailable } from './utils/index.js';
-import {
-  handleScanDirectory,
-  handleListRules,
-  handleAnalyzeResults,
-  handleCreateRule,
-  handleFilterResults,
-  handleExportResults,
-  handleCompareResults,
-  handleListResources,
-  handleListPrompts
-} from './handlers/index.js';
-import { SERVER_CONFIG } from './config.js';
+const execAsync = promisify(exec);
+
+// Determine the MCP directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const BASE_ALLOWED_PATH = path.resolve(__dirname, '../..');
 
 class SemgrepServer {
   private server: Server;
 
   constructor() {
     this.server = new Server(
-      SERVER_CONFIG,
+      {
+        name: 'semgrep-server',
+        version: '0.1.0',
+      },
       {
         capabilities: {
           tools: {},
@@ -37,11 +37,75 @@ class SemgrepServer {
 
     this.setupToolHandlers();
     
-    this.server.onerror = (error: any) => console.error('[MCP Error]', error);
+    this.server.onerror = (error) => console.error('[MCP Error]', error);
     process.on('SIGINT', async () => {
       await this.server.close();
       process.exit(0);
     });
+  }
+
+  private async checkSemgrepInstallation(): Promise<boolean> {
+    try {
+      await execAsync('semgrep --version');
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  private async installSemgrep(): Promise<void> {
+    console.error('Installing Semgrep...');
+    try {
+      // Check if pip is installed
+      await execAsync('pip3 --version');
+    } catch (error) {
+      throw new Error('Python/pip3 is not installed. Please install Python and pip3.');
+    }
+
+    try {
+      // Install Semgrep via pip
+      await execAsync('pip3 install semgrep');
+      console.error('Semgrep was successfully installed');
+    } catch (error: any) {
+      throw new Error(`Error installing Semgrep: ${error.message}`);
+    }
+  }
+
+  private async ensureSemgrepAvailable(): Promise<void> {
+    const isInstalled = await this.checkSemgrepInstallation();
+    if (!isInstalled) {
+      await this.installSemgrep();
+    }
+  }
+
+  private validateAbsolutePath(pathToValidate: string, paramName: string): string {
+    if (!path.isAbsolute(pathToValidate)) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        `${paramName} must be an absolute path. Received: ${pathToValidate}`
+      );
+    }
+
+    // Normalize the path and ensure no path traversal is possible
+    const normalizedPath = path.normalize(pathToValidate);
+    
+    // Check if the normalized path is still absolute
+    if (!path.isAbsolute(normalizedPath)) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        `${paramName} contains invalid path traversal sequences`
+      );
+    }
+
+    // Check if the path is within the allowed base directory
+    if (!normalizedPath.startsWith(BASE_ALLOWED_PATH)) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        `${paramName} must be within the MCP directory (${BASE_ALLOWED_PATH})`
+      );
+    }
+
+    return normalizedPath;
   }
 
   private setupToolHandlers() {
@@ -207,25 +271,25 @@ class SemgrepServer {
       ]
     }));
 
-    this.server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
+    this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       // Ensure Semgrep is available before executing any tool
-      await ensureSemgrepAvailable();
+      await this.ensureSemgrepAvailable();
 
       switch (request.params.name) {
         case 'scan_directory':
-          return await handleScanDirectory(request.params.arguments);
+          return await this.handleScanDirectory(request.params.arguments);
         case 'list_rules':
-          return await handleListRules(request.params.arguments);
+          return await this.handleListRules(request.params.arguments);
         case 'analyze_results':
-          return await handleAnalyzeResults(request.params.arguments);
+          return await this.handleAnalyzeResults(request.params.arguments);
         case 'create_rule':
-          return await handleCreateRule(request.params.arguments);
+          return await this.handleCreateRule(request.params.arguments);
         case 'filter_results':
-          return await handleFilterResults(request.params.arguments);
+          return await this.handleFilterResults(request.params.arguments);
         case 'export_results':
-          return await handleExportResults(request.params.arguments);
+          return await this.handleExportResults(request.params.arguments);
         case 'compare_results':
-          return await handleCompareResults(request.params.arguments);
+          return await this.handleCompareResults(request.params.arguments);
         default:
           throw new McpError(
             ErrorCode.MethodNotFound,
@@ -235,10 +299,433 @@ class SemgrepServer {
     });
   }
 
-  async run() {
-    // Check and install Semgrep if necessary on server start
+  private async handleScanDirectory(args: any) {
+    if (!args.path) {
+      throw new McpError(ErrorCode.InvalidParams, 'Path is required');
+    }
+
+    const scanPath = this.validateAbsolutePath(args.path, 'path');
+    const config = args.config || 'auto';
+    
+    // If config is a path (not 'auto'), validate it's an absolute path
+    const configParam = config !== 'auto' 
+      ? this.validateAbsolutePath(config, 'config')
+      : config;
+
     try {
-      await ensureSemgrepAvailable();
+      const { stdout, stderr } = await execAsync(
+        `semgrep scan --json --config ${configParam} ${scanPath}`
+      );
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: stdout
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error scanning: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  private async handleListRules(args: any) {
+    const languageFilter = args.language ? `--lang ${args.language}` : '';
+    try {
+      // Get the registry rules
+      const { stdout } = await execAsync('semgrep login --help');
+      
+      // Format the output
+      const formattedOutput = `Available Semgrep Registry Rules:
+
+Standard rule collections:
+- p/ci: Basic CI rules
+- p/security: Security rules
+- p/performance: Performance rules
+- p/best-practices: Best practice rules
+
+Use these rule collections with --config, e.g.:
+semgrep scan --config=p/ci`;
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: formattedOutput
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error retrieving rules: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  private async handleAnalyzeResults(args: any) {
+    if (!args.results_file) {
+      throw new McpError(ErrorCode.InvalidParams, 'Results file is required');
+    }
+
+    const resultsFile = this.validateAbsolutePath(args.results_file, 'results_file');
+
+    try {
+      const { stdout } = await execAsync(`cat ${resultsFile}`);
+      const results = JSON.parse(stdout);
+      
+      // Simple analysis of the results
+      const summary = {
+        total_findings: results.results?.length || 0,
+        by_severity: {} as Record<string, number>,
+        by_rule: {} as Record<string, number>
+      };
+
+      for (const finding of results.results || []) {
+        const severity = finding.extra.severity || 'unknown';
+        const rule = finding.check_id || 'unknown';
+
+        summary.by_severity[severity] = (summary.by_severity[severity] || 0) + 1;
+        summary.by_rule[rule] = (summary.by_rule[rule] || 0) + 1;
+      }
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(summary, null, 2)
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error analyzing results: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  private async handleCreateRule(args: any) {
+    if (!args.output_path || !args.pattern || !args.language || !args.message) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        'output_path, pattern, language and message are required'
+      );
+    }
+
+    const outputPath = this.validateAbsolutePath(args.output_path, 'output_path');
+    const severity = args.severity || 'WARNING';
+    const id = args.id || 'custom_rule';
+
+    // Create YAML rule
+    const ruleYaml = `
+rules:
+  - id: ${id}
+    pattern: ${args.pattern}
+    message: ${args.message}
+    languages: [${args.language}]
+    severity: ${severity}
+`;
+
+    try {
+      await execAsync(`echo '${ruleYaml}' > ${outputPath}`);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Rule successfully created at ${outputPath}`
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error creating rule: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  private async handleFilterResults(args: any) {
+    if (!args.results_file) {
+      throw new McpError(ErrorCode.InvalidParams, 'results_file is required');
+    }
+
+    const resultsFile = this.validateAbsolutePath(args.results_file, 'results_file');
+
+    try {
+      const { stdout } = await execAsync(`cat ${resultsFile}`);
+      const results = JSON.parse(stdout);
+      
+      let filteredResults = results.results || [];
+
+      // Filter by severity
+      if (args.severity) {
+        filteredResults = filteredResults.filter(
+          (finding: any) => finding.extra.severity === args.severity
+        );
+      }
+
+      // Filter by rule ID
+      if (args.rule_id) {
+        filteredResults = filteredResults.filter(
+          (finding: any) => finding.check_id === args.rule_id
+        );
+      }
+
+      // Filter by path pattern
+      if (args.path_pattern) {
+        const pathRegex = new RegExp(args.path_pattern);
+        filteredResults = filteredResults.filter(
+          (finding: any) => pathRegex.test(finding.path)
+        );
+      }
+      
+      // Filter by language
+      if (args.language) {
+        filteredResults = filteredResults.filter(
+          (finding: any) => finding.extra.metadata?.language === args.language
+        );
+      }
+      
+      // Filter by message pattern
+      if (args.message_pattern) {
+        const messageRegex = new RegExp(args.message_pattern);
+        filteredResults = filteredResults.filter(
+          (finding: any) => messageRegex.test(finding.extra.message)
+        );
+      }
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ results: filteredResults }, null, 2)
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error filtering results: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  private async handleExportResults(args: any) {
+    if (!args.results_file || !args.output_file) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        'results_file and output_file are required'
+      );
+    }
+
+    const resultsFile = this.validateAbsolutePath(args.results_file, 'results_file');
+    const outputFile = this.validateAbsolutePath(args.output_file, 'output_file');
+    const format = args.format || 'text';
+
+    try {
+      const { stdout } = await execAsync(`cat ${resultsFile}`);
+      const results = JSON.parse(stdout);
+
+      let output = '';
+      switch (format) {
+        case 'json':
+          output = JSON.stringify(results, null, 2);
+          break;
+        case 'sarif':
+          // Create SARIF format
+          const sarifOutput = {
+            $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+            version: "2.1.0",
+            runs: [{
+              tool: {
+                driver: {
+                  name: "semgrep",
+                  rules: results.results.map((r: any) => ({
+                    id: r.check_id,
+                    name: r.check_id,
+                    shortDescription: {
+                      text: r.extra.message
+                    },
+                    defaultConfiguration: {
+                      level: r.extra.severity === 'ERROR' ? 'error' : 'warning'
+                    }
+                  }))
+                }
+              },
+              results: results.results.map((r: any) => ({
+                ruleId: r.check_id,
+                message: {
+                  text: r.extra.message
+                },
+                locations: [{
+                  physicalLocation: {
+                    artifactLocation: {
+                      uri: r.path
+                    },
+                    region: {
+                      startLine: r.start.line,
+                      startColumn: r.start.col,
+                      endLine: r.end.line,
+                      endColumn: r.end.col
+                    }
+                  }
+                }]
+              }))
+            }]
+          };
+          output = JSON.stringify(sarifOutput, null, 2);
+          break;
+        case 'text':
+        default:
+          // Human readable format
+          output = results.results.map((r: any) =>
+            `[${r.extra.severity}] ${r.check_id}\n` +
+            `File: ${r.path}\n` +
+            `Lines: ${r.start.line}-${r.end.line}\n` +
+            `Message: ${r.extra.message}\n` +
+            '-------------------'
+          ).join('\n');
+          break;
+      }
+
+      await execAsync(`echo '${output}' > ${outputFile}`);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Results successfully exported to ${outputFile}`
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error exporting results: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  private async handleCompareResults(args: any) {
+    if (!args.old_results || !args.new_results) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        'old_results and new_results are required'
+      );
+    }
+
+    const oldResultsFile = this.validateAbsolutePath(args.old_results, 'old_results');
+    const newResultsFile = this.validateAbsolutePath(args.new_results, 'new_results');
+
+    try {
+      const { stdout: oldContent } = await execAsync(`cat ${oldResultsFile}`);
+      const { stdout: newContent } = await execAsync(`cat ${newResultsFile}`);
+      
+      const oldResults = JSON.parse(oldContent).results || [];
+      const newResults = JSON.parse(newContent).results || [];
+
+      // Compare findings
+      const oldFindings = new Set(oldResults.map((r: any) =>
+        `${r.check_id}:${r.path}:${r.start.line}:${r.start.col}`
+      ));
+
+      const comparison = {
+        total_old: oldResults.length,
+        total_new: newResults.length,
+        added: [] as any[],
+        removed: [] as any[],
+        unchanged: [] as any[]
+      };
+
+      // Identify new and unchanged findings
+      newResults.forEach((finding: any) => {
+        const key = `${finding.check_id}:${finding.path}:${finding.start.line}:${finding.start.col}`;
+        if (oldFindings.has(key)) {
+          comparison.unchanged.push(finding);
+        } else {
+          comparison.added.push(finding);
+        }
+      });
+
+      // Identify removed findings
+      oldResults.forEach((finding: any) => {
+        const key = `${finding.check_id}:${finding.path}:${finding.start.line}:${finding.start.col}`;
+        const exists = newResults.some((newFinding: any) =>
+          `${newFinding.check_id}:${newFinding.path}:${newFinding.start.line}:${newFinding.start.col}` === key
+        );
+        if (!exists) {
+          comparison.removed.push(finding);
+        }
+      });
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({
+              summary: {
+                old_findings: comparison.total_old,
+                new_findings: comparison.total_new,
+                added: comparison.added.length,
+                removed: comparison.removed.length,
+                unchanged: comparison.unchanged.length
+              },
+              details: comparison
+            }, null, 2)
+          }
+        ]
+      };
+    } catch (error: any) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error comparing results: ${error.message}`
+          }
+        ],
+        isError: true
+      };
+    }
+  }
+
+  async run() {
+    // Check and potentially install Semgrep on server start
+    try {
+      await this.ensureSemgrepAvailable();
     } catch (error: any) {
       console.error(`Error setting up Semgrep: ${error.message}`);
       process.exit(1);
@@ -246,7 +733,7 @@ class SemgrepServer {
 
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('MCP Server Semgrep running on stdio');
+    console.error('Semgrep MCP Server running on stdio');
   }
 }
 
